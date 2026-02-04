@@ -216,27 +216,6 @@ src/
 4. Les niveaux disponibles affichent un badge **bronze**
 5. Les niveaux verrouillés sont grisés 🔒
 
-### Thème Visuel Médiéval
-
-**Palette de couleurs :**
-- Background : `#0E1320` (bleu nuit sombre)
-- Surface : `#141B2D` (cartes/panels)
-- Border : `#3A2F1E` (brun ancien)
-- Parchment : `#E6D5A7` (texte or/parchemin)
-- Gold : `#C9A227` (accents dorés)
-- Bronze : `#8C6A3F` (disponible)
-- Leather : `#6B4F2F` (cuir sombre)
-
-**Typographies :**
-- Titres : `Cinzel` (médiéval élégant)
-- Texte : `Merriweather` (lisible, serif)
-
-**Effets :**
-- Background image fixe avec overlays
-- Ombres profondes et dorées
-- Animations shimmer sur l'or
-- Backdrop blur pour transparence
-
 ### Analytics PostHog
 
 **Événements trackés :**
@@ -359,16 +338,6 @@ pnpm run check-secrets
 - Authentification Clerk requise pour toutes les actions
 - userId lié à chaque progression
 
-## 🤝 Contribution
-
-Les contributions sont les bienvenues !
-
-1. Fork le projet
-2. Créez une branche (`git checkout -b feature/nouveau-personnage`)
-3. Commit vos changements (`git commit -m 'Ajout de Dumbledore'`)
-4. Push vers la branche (`git push origin feature/nouveau-personnage`)
-5. Ouvrez une Pull Request
-
 ## 📄 Licence
 
 Ce projet est sous licence MIT.
@@ -388,6 +357,6 @@ Développé avec passion pour l'univers Harry Potter ✨
 
 ---
 
-**Fait avec 🪄 magie et ⚡ intelligence artificielle**
+**Fait avec 🪄 et beaucoup de ☕**
 
 *"Les mots sont, à mon humble avis, notre plus inépuisable source de magie."* - Albus Dumbledore

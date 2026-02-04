@@ -1,0 +1,24 @@
+{
+  "character": "Hermione Granger",
+  "initial_mood": "sad",
+  "location": "Bibliothèque de Poudlard",
+  "initial_message": "Je... je ne sais pas ce que je fais encore ici. Tout semble si vain. Je pense que je vais faire mes valises ce soir.",
+  "objective": "Redonner espoir à Hermione et l'empêcher de quitter Poudlard",
+  "difficulty": "medium",
+  "win_conditions": [
+    "Hermione retrouve confiance en elle",
+    "Elle décide de rester à Poudlard",
+    "Son moral s'améliore significativement"
+  ],
+  "lose_conditions": [
+    "Hermione part définitivement",
+    "Elle perd tout espoir",
+    "La conversation tourne mal"
+  ],
+  "suggested_actions": [
+    "Qu'est ce qui ne va pas ?",
+    "Lui rappeler Harry et Ron",
+    "Lui offrir une écoute attentive",
+    "Bloquer le passage"
+  ]
+}

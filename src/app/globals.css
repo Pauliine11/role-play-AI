@@ -1,0 +1,222 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ========== MEDIEVAL THEME - DESIGN TOKENS ========== */
+@theme {
+  /* Polices médiévales */
+  --font-title: var(--font-cinzel), ui-serif, Georgia, serif;
+  --font-body: var(--font-merriweather), ui-serif, Georgia, serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  
+  /* Palette Grimoire Médiéval */
+  --color-grimoire-bg: #0E1320;
+  --color-grimoire-surface: #141B2D;
+  --color-grimoire-surface-2: #101827;
+  --color-grimoire-border: #3A2F1E;
+  --color-grimoire-parchment: #E6D5A7;
+  --color-grimoire-parchment-muted: #B8A77E;
+  --color-grimoire-gold: #C9A227;
+  --color-grimoire-gold-dark: #9A7920;
+  --color-grimoire-leather: #6B4F2F;
+  --color-grimoire-leather-hover: #8C6A3F;
+  --color-grimoire-danger: #8B2C2C;
+  --color-grimoire-bronze: #8C6A3F;
+  --color-grimoire-success: #C9A227;
+}
+
+/* ========== MEDIEVAL BACKGROUND ========== */
+body {
+  background-image: url('/backgroundImage.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Overlay sombre pour lisibilité + ambiance médiévale */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg, 
+    rgba(14, 19, 32, 0.85) 0%, 
+    rgba(26, 20, 16, 0.80) 50%, 
+    rgba(10, 13, 21, 0.85) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Texture parchemin subtile par-dessus */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(107, 79, 47, 0.03) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(230, 213, 167, 0.008) 2px, rgba(230, 213, 167, 0.008) 4px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========== CUSTOM SCROLLBAR - MEDIEVAL ========== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6B4F2F #141B2D;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #141B2D;
+  border-left: 1px solid #3A2F1E;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6B4F2F 0%, #5a4028 100%);
+  border-radius: 6px;
+  border: 1px solid #3A2F1E;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8C6A3F 0%, #6B4F2F 100%);
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes shimmer-gold {
+  0%, 100% {
+    text-shadow: 0 2px 8px rgba(201, 162, 39, 0.4), 0 0 4px rgba(201, 162, 39, 0.2);
+  }
+  50% {
+    text-shadow: 0 2px 12px rgba(201, 162, 39, 0.6), 0 0 16px rgba(201, 162, 39, 0.3);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+.animate-shimmer-gold {
+  animation: shimmer-gold 3s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+/* ========== FOCUS STYLES - MEDIEVAL ========== */
+*:focus-visible {
+  outline: 2px solid #C9A227;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.1);
+}
+
+/* ========== TYPOGRAPHY - MEDIEVAL ========== */
+h1, h2, h3, h4, h5, h6,
+.title,
+.heading {
+  font-family: var(--font-title);
+  letter-spacing: 0.02em;
+  color: #E6D5A7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body,
+p,
+.text-body {
+  font-family: var(--font-body);
+  color: #B8A77E;
+}
+
+/* ========== CARD BACKGROUNDS - MEDIEVAL ========== */
+.card-medieval {
+  background: linear-gradient(135deg, #141B2D 0%, #0f1420 100%);
+  position: relative;
+}
+
+.card-medieval::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(58, 47, 30, 0.03) 2px,
+      rgba(58, 47, 30, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(58, 47, 30, 0.03) 2px,
+      rgba(58, 47, 30, 0.03) 4px
+    );
+  pointer-events: none;
+  border-radius: inherit;
+}

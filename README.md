@@ -1,31 +1,46 @@
-# 🎩 Bertrand - Votre Assistant IA Personnel
+# 🏰 Le Grimoire Éveillé - Jeu de Rôle Conversationnel Harry Potter
 
-Application Next.js élégante avec éditeur Markdown et chat IA propulsé par OpenAI.
+Application Next.js immersive où vous dialoguez avec les personnages de Poudlard pour accomplir des missions narratives. Propulsé par l'IA OpenAI GPT-4o-mini.
 
 ## ✨ Fonctionnalités
 
-### **Core Features**
-- 💬 **Chat IA** - Conversez avec Bertrand propulsé par GPT-3.5
-- 📝 **Éditeur Markdown** - Éditeur avec prévisualisation en temps réel
-- 🔄 **Versioning** - Historique complet avec navigation entre versions
-- 💾 **Auto-save** - Sauvegarde automatique après 2 secondes d'inactivité
-- ✨ **Mode Draft** - L'IA modifie directement votre document
+### **Système de Jeu RPG**
+- 🎭 **Dialogues IA Dynamiques** - Conversations réalistes avec des personnages Harry Potter
+- 🎯 **Missions Narratives** - Chaque niveau a des objectifs uniques à atteindre
+- 😊 **États Émotionnels** - Les personnages réagissent à vos choix (triste, heureux, en colère...)
+- 🎲 **Système de Tours** - Limite de 10 tours pour accomplir votre mission
+- 🔮 **Mots Secrets** - Découvrez des mots spéciaux pour des fins alternatives
+- 🏆 **Progression Sauvegardée** - Votre avancement est enregistré dans Supabase
 
-### **UI/UX Enhancements** ⭐ NEW
-- 🎛️ **Sidebar Collapsible** - Gagnez de l'espace (256px → 64px)
-- ⚡ **Suggestions de Prompts** - Démarrez rapidement avec des templates
-- 📋 **Copy to Clipboard** - Copiez les réponses en un clic
-- ⌨️ **Raccourcis Clavier** - Productivité maximale (Ctrl+S, Ctrl+D, etc.)
-- 🎨 **Interface élégante** - Design raffiné avec sidebar et navigation intelligente
-- 📱 **Layout Responsive** - S'adapte automatiquement à vos besoins
+### **Personnages Disponibles**
+- 📚 **Hermione Granger** - Bibliothèque de Poudlard
+- 🐻 **Hagrid** - La Cabane mystérieuse
+- ♟️ **Ron Weasley** - Salle Commune
+- 🌙 **Luna Lovegood** - Le Mystère des Nargoles
+
+### **Interface Utilisateur** ⭐
+- 🎨 **Thème Médiéval/Sorcier** - Design parchemin, or ancien, cuir
+- 🖼️ **Avatars Dynamiques** - Expressions faciales selon l'humeur du personnage
+- 📜 **Sidebar Magique** - Navigation élégante et immersive
+- 🌍 **Multilingue** - Support FR/EN complet
+- 📊 **PostHog Analytics** - Suivi des événements de jeu
+- 🔐 **Clerk Auth** - Authentification utilisateur sécurisée
+
+### **Administration**
+- ➕ **Création de Niveaux** - Interface admin pour ajouter de nouveaux personnages
+- 📝 **Configuration JSON** - Définissez l'humeur, la localisation, les conditions de victoire
+- ✅ **Activation Dynamique** - Activez/désactivez les niveaux en temps réel
 
 ## 🚀 Démarrage Rapide
 
 ### Prérequis
 
-- Node.js 18+ 
-- npm ou yarn
-- Une clé API OpenAI
+- Node.js 18+
+- npm, yarn ou pnpm
+- Compte Supabase (base de données)
+- Clé API OpenAI
+- Compte Clerk (authentification)
+- Compte PostHog (analytics - optionnel)
 
 ### Installation
 
@@ -37,29 +52,51 @@ cd my-app
 
 2. **Installer les dépendances**
 ```bash
-npm install
+pnpm install
+# ou npm install / yarn install
 ```
 
 3. **Configurer les variables d'environnement**
 
-Copier le fichier d'exemple :
-```bash
-cp .env.example .env.local
-```
-
-Éditer `.env.local` et ajouter votre clé API OpenAI :
+Créer `.env.local` :
 ```env
-NEXT_PUBLIC_OPENAI_KEY=sk-your-actual-api-key-here
+# OpenAI
+NEXT_PUBLIC_OPENAI_KEY=sk-your-openai-key-here
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+# PostHog (optionnel)
+NEXT_PUBLIC_POSTHOG_KEY=phc_...
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 ```
 
-> 🔑 **Obtenir une clé API:** [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+4. **Configurer la base de données Supabase**
 
-4. **Lancer le serveur de développement**
+Exécuter les scripts SQL dans `database/` :
 ```bash
-npm run dev
+# 1. Créer les tables
+database/schema_conversations.sql
+
+# 2. Insérer les niveaux
+database/seed.sql
 ```
 
-5. **Ouvrir dans le navigateur**
+Voir [database/README.md](./database/README.md) pour plus de détails.
+
+5. **Lancer le serveur de développement**
+```bash
+pnpm dev
+```
+
+6. **Ouvrir dans le navigateur**
 ```
 http://localhost:3000
 ```
@@ -68,178 +105,268 @@ http://localhost:3000
 
 ```
 src/
-├── app/                           # Pages Next.js (App Router)
-│   ├── layout.tsx                # Layout racine avec Navbar
-│   ├── page.tsx                  # Page d'accueil (Chat)
-│   └── bertrand-editor-space/    # Page Éditeur + Chat
-├── components/                    # Composants réutilisables
-│   ├── Navbar.tsx               # Navigation
-│   ├── BertrandLogo.tsx         # Logo SVG
-│   ├── Snackbar.tsx             # Notifications
-│   ├── DraftModeToggle.tsx      # Bouton Mode Draft
-│   └── ...
-├── hooks/                         # Hooks personnalisés
-│   ├── useChatMessages.ts       # Logique chat
-│   ├── useChatWithDraft.ts      # Chat avec mode Draft
-│   ├── useVersionHistory.ts     # Versioning
-│   ├── useDraftMode.ts          # Mode Draft
-│   ├── useSnackbar.ts           # Notifications
-│   └── useAutoSave.ts           # Auto-save
-└── services/                      # Services
-    └── openai.service.ts         # Service OpenAI
+├── app/                                    # Pages Next.js (App Router)
+│   ├── layout.tsx                         # Layout racine avec fonts
+│   ├── page.tsx                           # Page d'accueil (sélection niveau)
+│   ├── game/                              # Page de jeu RPG
+│   │   ├── page.tsx                      # Interface de dialogue
+│   │   └── layout.tsx                    # Layout immersif
+│   ├── admin/                             # Interface administration
+│   │   └── levels/new/page.tsx           # Création de niveau
+│   ├── globals.css                        # Styles globaux + thème médiéval
+│   └── providers.tsx                      # Providers (Clerk, PostHog, etc.)
+│
+├── features/                               # Fonctionnalités par domaine
+│   ├── game/                              # Logique de jeu
+│   │   ├── actions/                      # Server Actions
+│   │   │   ├── game-actions.ts          # Actions de conversation
+│   │   │   ├── conversation-actions.ts  # Historique
+│   │   │   └── progression-actions.ts   # Progression utilisateur
+│   │   ├── components/                   # Composants jeu
+│   │   │   └── StoryProgress.tsx        # Barre de progression
+│   │   ├── hooks/                        # Hooks personnalisés
+│   │   │   └── useStoryProgression.ts   # Gestion progression
+│   │   ├── data.ts                       # Données hardcodées (fallback)
+│   │   └── types.ts                      # Types TypeScript
+│   │
+│   ├── analytics/                         # PostHog Analytics
+│   │   ├── provider.tsx                  # Provider PostHog
+│   │   └── events.ts                     # Tracking d'événements
+│   │
+│   └── levels/                            # Gestion des niveaux
+│       └── level.ts                       # Types et schemas
+│
+├── shared/                                 # Code partagé
+│   ├── components/                        # Composants réutilisables
+│   │   ├── layout/                       # Layout
+│   │   │   ├── Navbar.tsx               # Navbar
+│   │   │   ├── NavbarResponsive.tsx     # Navbar mobile
+│   │   │   ├── Sidebar.tsx              # Sidebar médiévale
+│   │   │   ├── Footer.tsx               # Footer thématique
+│   │   │   └── LayoutContent.tsx        # Content wrapper
+│   │   └── ui/                           # Composants UI
+│   │       ├── Button.tsx               # Boutons thématiques
+│   │       ├── Input.tsx                # Inputs médiévaux
+│   │       ├── Snackbar.tsx             # Notifications
+│   │       ├── Loader.tsx               # Chargement
+│   │       ├── LanguageToggle.tsx       # Sélecteur langue
+│   │       └── ...
+│   │
+│   ├── hooks/                             # Hooks partagés
+│   │   ├── useGameSession.ts            # Session de jeu
+│   │   ├── useSidebar.tsx               # Sidebar state
+│   │   ├── useSnackbar.ts               # Notifications
+│   │   └── useMediaQuery.ts             # Responsive
+│   │
+│   ├── providers/                         # Providers React
+│   │   └── LanguageContext.tsx          # Contexte i18n (FR/EN)
+│   │
+│   ├── services/                          # Services
+│   │   └── openai.service.ts            # Service OpenAI
+│   │
+│   ├── lib/                               # Librairies
+│   │   └── supabase.ts                  # Client Supabase
+│   │
+│   └── types/                             # Types globaux
+│       └── index.ts                      # Interfaces TypeScript
+│
+└── public/                                 # Assets statiques
+    ├── hermione/                          # Images Hermione
+    │   ├── neutral.jpg
+    │   ├── happy.jpg
+    │   ├── sad.jpg
+    │   ├── angry.jpg
+    │   └── desperate.jpg
+    ├── hagrid/                            # Images Hagrid
+    ├── ron/                               # Images Ron (PNG)
+    ├── luna/                              # Images Luna (PNG)
+    ├── logoGrimoire.png                   # Logo principal
+    └── backgroundImage.png                # Background médiéval
 ```
 
 ## 🎯 Fonctionnalités Détaillées
 
-### Mode Chat
-- Conversation avec l'IA
-- Historique des messages
-- Interface responsive
+### Système de Jeu RPG
 
-### Éditeur Markdown
-- Édition en temps réel
-- Prévisualisation instantanée
-- Syntaxe Markdown complète
+**Objectif :** Dialoguez avec un personnage pour l'aider à résoudre un problème émotionnel ou atteindre un objectif.
 
-### Versioning
-- Sauvegarde de chaque version
-- Navigation entre versions (← →)
-- Suppression de versions
-- Timestamps automatiques
+**Mécanique :**
+1. Chaque niveau a un personnage unique (Hermione, Hagrid, Ron, Luna)
+2. Le personnage a une **humeur initiale** (triste, nerveux, neutre)
+3. Votre conversation influence son **risque de départ** (0-100%)
+4. Vous avez **10 tours maximum** pour réussir la mission
+5. **Victoire** si le personnage est convaincu (risque proche de 0%)
+6. **Défaite** si le personnage part ou après 10 tours
 
-### Mode Draft ✨
-Active un mode spécial où l'IA modifie directement votre document.
+**Mots Secrets :**
+- `youpi` / `yay` : Victoire instantanée
+- `moldu` / `muggle` : Défaite instantanée (insulte magique)
 
-**Comment l'utiliser :**
-1. Cliquez sur "📝 Mode Draft"
-2. Le contenu de l'éditeur est automatiquement partagé avec l'IA
-3. Tapez une instruction : "Corrige les fautes", "Traduis en anglais"...
-4. La réponse remplace le contenu de l'éditeur
+### Système de Progression
 
-**Cas d'usage :**
-- Correction orthographique
-- Amélioration de style
-- Traduction
-- Reformatage
-- Résumé/développement
+**Base de données Supabase :**
+- Table `levels` : Tous les niveaux disponibles
+- Table `user_level_progress` : Progression par utilisateur
+- Authentification via Clerk (userId)
 
-Plus de détails : voir [DRAFT_MODE.md](./DRAFT_MODE.md)
+**Logique de déverrouillage :**
+1. Le premier niveau est toujours déverrouillé
+2. Compléter un niveau déverrouille le suivant
+3. Les niveaux complétés affichent un badge **or brillant** ✨
+4. Les niveaux disponibles affichent un badge **bronze**
+5. Les niveaux verrouillés sont grisés 🔒
 
-## ⌨️ Raccourcis Clavier
+### Thème Visuel Médiéval
 
-Travaillez plus vite avec ces raccourcis :
+**Palette de couleurs :**
+- Background : `#0E1320` (bleu nuit sombre)
+- Surface : `#141B2D` (cartes/panels)
+- Border : `#3A2F1E` (brun ancien)
+- Parchment : `#E6D5A7` (texte or/parchemin)
+- Gold : `#C9A227` (accents dorés)
+- Bronze : `#8C6A3F` (disponible)
+- Leather : `#6B4F2F` (cuir sombre)
 
-| Raccourci | Action | Description |
-|-----------|--------|-------------|
-| `Ctrl/Cmd + S` | Sauvegarder | Sauvegarde et télécharge le document |
-| `Ctrl/Cmd + D` | Toggle Draft | Active/désactive le Mode Draft |
-| `Ctrl/Cmd + K` | Focus Chat | Place le curseur dans le champ de chat |
+**Typographies :**
+- Titres : `Cinzel` (médiéval élégant)
+- Texte : `Merriweather` (lisible, serif)
 
-💡 Cliquez sur l'icône ⌨️ en bas à gauche pour voir tous les raccourcis disponibles.
+**Effets :**
+- Background image fixe avec overlays
+- Ombres profondes et dorées
+- Animations shimmer sur l'or
+- Backdrop blur pour transparence
+
+### Analytics PostHog
+
+**Événements trackés :**
+- `game_started` : Début d'un niveau
+- `message_sent` : Message envoyé dans le jeu
+- `game_ended` : Fin de partie (victoire/défaite)
+- `secret_word_used` : Utilisation mot secret
+- `level_navigation` : Navigation entre niveaux
+- `language_changed` : Changement de langue
+
+## 🎨 Technologies
+
+- **Next.js 16.0.3** - Framework React avec App Router
+- **TypeScript 5** - Typage statique
+- **Tailwind CSS 4** - Styles utilitaires + thème personnalisé
+- **OpenAI GPT-4o-mini** - Intelligence artificielle conversationnelle
+- **Supabase** - Base de données PostgreSQL + Auth
+- **Clerk** - Authentification utilisateur (GitHub, Google, Email)
+- **PostHog** - Analytics et feature flags
+- **React Hook Form + Zod** - Formulaires avec validation
+- **Next/Image** - Optimisation d'images
+
+## 🛠️ Scripts Disponibles
+
+```bash
+# Développement (Turbopack)
+pnpm dev
+
+# Build de production
+pnpm build
+
+# Démarrer en production
+pnpm start
+
+# Linter
+pnpm lint
+
+# Vérification de sécurité (API keys)
+pnpm run check-secrets
+```
+
+## 📚 Documentation
+
+- [database/README.md](./database/README.md) - Configuration Supabase
+- [documentation/STRUCTURE_GUIDE.md](./documentation/STRUCTURE_GUIDE.md) - Architecture complète
+- [documentation/PROGRESSION_SYSTEM.md](./documentation/PROGRESSION_SYSTEM.md) - Système de progression
+- [documentation/POSTHOG_SETUP.md](./documentation/POSTHOG_SETUP.md) - Configuration analytics
+- [documentation/CLERK_SETUP.md](./documentation/CLERK_SETUP.md) - Configuration auth
+
+## 🐛 Problèmes Courants
+
+### "API Key not configured"
+→ Vérifiez `.env.local` et votre clé OpenAI
+
+### "Supabase connection failed"
+→ Vérifiez vos credentials Supabase dans `.env.local`
+
+### "User not authenticated"
+→ Configurez Clerk correctement et connectez-vous
+
+### Images manquantes
+→ Ajoutez les images des personnages dans `/public/{character}/`
+
+### Niveau ne se déverrouille pas
+→ Vérifiez la table `user_level_progress` dans Supabase
+
+## 🎮 Créer un Nouveau Niveau
+
+1. **Ajouter les images** dans `/public/{character-name}/` :
+   - `neutral.png/jpg`
+   - `happy.png/jpg`
+   - `sad.png/jpg`
+   - `angry.png/jpg`
+   - `desperate.png/jpg`
+
+2. **Configurer la détection** dans :
+   - `src/app/page.tsx` (cards homepage)
+   - `src/app/game/page.tsx` (page de jeu)
+
+3. **Ajouter les traductions** dans :
+   - `src/shared/providers/LanguageContext.tsx`
+   - Clés : `level.{character}.title` et `level.{character}.description`
+
+4. **Créer le niveau via l'admin** :
+   - `/admin/levels/new`
+   - Remplir : titre, description, ordre, JSON content
+
+**Format JSON content :**
+```json
+{
+  "character": "Nom du Personnage",
+  "initial_mood": "neutral",
+  "location": "Lieu à Poudlard",
+  "initial_message": "Message d'ouverture...",
+  "objective": "Objectif de la mission",
+  "difficulty": "medium",
+  "win_conditions": ["Condition 1", "Condition 2"],
+  "lose_conditions": ["Condition 1", "Condition 2"],
+  "suggested_actions": ["Action 1", "Action 2", "Action 3", "Action 4"]
+}
+```
 
 ## 🔒 Sécurité
 
 ### Variables d'Environnement
 
 **✅ Fichiers ignorés par Git :**
-- `.env.local` (votre clé API)
-- `.env` 
+- `.env.local` (vos clés API)
+- `.env`
 
 **⚠️ Ne JAMAIS commiter :**
-- Vos clés API
-- `.env.local`
-- Fichiers contenant des secrets
+- Clés API OpenAI
+- Credentials Supabase
+- Secrets Clerk
+- Tokens PostHog
 
-### Vérification avant Push
+### Base de données
 
-Avant de pousser sur GitHub :
-
-```bash
-# Vérifier qu'aucun fichier sensible n'est tracké
-git status
-
-# Vérifier le .gitignore
-cat .gitignore
-
-# S'assurer que .env.local est ignoré
-git check-ignore .env.local
-# Devrait afficher: .env.local
-```
-
-### Si vous avez déjà commit une clé
-
-Si vous avez accidentellement commit votre clé API :
-
-1. **Révoquer immédiatement la clé** sur [OpenAI](https://platform.openai.com/api-keys)
-2. **Créer une nouvelle clé**
-3. **Nettoyer l'historique Git :**
-```bash
-# Option 1: Supprimer le fichier de l'historique
-git filter-branch --force --index-filter \
-  "git rm --cached --ignore-unmatch .env.local" \
-  --prune-empty --tag-name-filter cat -- --all
-
-# Option 2: Utiliser git-filter-repo (recommandé)
-git-filter-repo --path .env.local --invert-paths
-```
-
-4. **Force push** (attention : destructif)
-```bash
-git push origin --force --all
-```
-
-## 🛠️ Scripts Disponibles
-
-```bash
-# Développement
-npm run dev
-
-# Build de production
-npm run build
-
-# Démarrer en production
-npm start
-
-# Linter
-npm run lint
-```
-
-## 📚 Documentation
-
-- [CODE_STRUCTURE.md](./CODE_STRUCTURE.md) - Architecture détaillée
-- [DRAFT_MODE.md](./DRAFT_MODE.md) - Guide du Mode Draft
-
-## 🎨 Technologies
-
-- **Next.js 15** - Framework React
-- **TypeScript** - Typage statique
-- **Tailwind CSS** - Styles
-- **OpenAI API** - Intelligence artificielle
-- **React Query** - Gestion d'état et requêtes
-- **@uiw/react-md-editor** - Éditeur Markdown
-
-## 🐛 Problèmes Courants
-
-### "API Key not configured"
-→ Vérifiez que `.env.local` existe et contient votre clé
-
-### "Module not found"
-→ Lancez `npm install`
-
-### "Port already in use"
-→ Changez le port : `PORT=3001 npm run dev`
-
-### Erreur OpenAI
-→ Vérifiez vos crédits sur [platform.openai.com](https://platform.openai.com)
+- Row Level Security (RLS) activé sur Supabase
+- Authentification Clerk requise pour toutes les actions
+- userId lié à chaque progression
 
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues !
 
 1. Fork le projet
-2. Créez une branche (`git checkout -b feature/amazing-feature`)
-3. Commit vos changements (`git commit -m 'Add amazing feature'`)
-4. Push vers la branche (`git push origin feature/amazing-feature`)
+2. Créez une branche (`git checkout -b feature/nouveau-personnage`)
+3. Commit vos changements (`git commit -m 'Ajout de Dumbledore'`)
+4. Push vers la branche (`git push origin feature/nouveau-personnage`)
 5. Ouvrez une Pull Request
 
 ## 📄 Licence
@@ -248,16 +375,19 @@ Ce projet est sous licence MIT.
 
 ## 👨‍💻 Auteur
 
-Votre nom - [@votre-github](https://github.com/votre-username)
+Développé avec passion pour l'univers Harry Potter ✨
 
 ## 🙏 Remerciements
 
+- J.K. Rowling pour l'univers Harry Potter
 - OpenAI pour l'API GPT
-- Next.js team
-- La communauté open source
+- Supabase team
+- Clerk team
+- PostHog team
+- La communauté Next.js
 
 ---
 
-**Fait avec ❤️ et beaucoup de ☕**
-# Bertrand
-# role-play-AI
+**Fait avec 🪄 magie et ⚡ intelligence artificielle**
+
+*"Les mots sont, à mon humble avis, notre plus inépuisable source de magie."* - Albus Dumbledore

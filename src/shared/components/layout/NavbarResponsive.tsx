@@ -90,13 +90,15 @@ export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
           </SignedOut>
           
           <SignedIn>
-            <UserButton 
-              appearance={{
-                elements: {
-                  avatarBox: "h-10 w-10 rounded-full border-2 border-[#C9A227] hover:border-[#E6C847] transition-all duration-200 shadow-[0_0_8px_rgba(201,162,39,0.3)]"
-                }
-              }}
-            />
+            <div data-testid="navbar-user-menu">
+              <UserButton 
+                appearance={{
+                  elements: {
+                    avatarBox: "h-10 w-10 rounded-full border-2 border-[#C9A227] hover:border-[#E6C847] transition-all duration-200 shadow-[0_0_8px_rgba(201,162,39,0.3)]"
+                  }
+                }}
+              />
+            </div>
           </SignedIn>
         </div>
       </div>

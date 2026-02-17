@@ -105,6 +105,7 @@ export default function HomePage() {
               <Link
                 key={level.id}
                 href={isLocked ? '#' : `/game?levelId=${level.id}`}
+                data-testid={`level-card-${levelKey}`}
                 className={`group relative overflow-hidden rounded-xl border-2 transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.6)] ${
                   isLocked
                     ? 'border-[#3A2F1E] opacity-60 cursor-not-allowed'
@@ -138,7 +139,9 @@ export default function HomePage() {
                 <div className="relative z-10 p-8 min-h-[320px] flex flex-col justify-between">
                   {/* Status Badge */}
                   <div className="flex justify-between items-start mb-4">
-                    <div className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm transition-all ${
+                    <div 
+                      data-testid="level-status"
+                      className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm transition-all ${
                       isCompleted
                         ? 'bg-[#C9A227]/60 text-[#0E1320] border-2 border-[#E6C847] shadow-[0_0_16px_rgba(230,200,71,0.5)] font-bold'
                         : isLocked
@@ -151,7 +154,9 @@ export default function HomePage() {
 
                   {/* Title & Character */}
                   <div>
-                    <h2 className={`text-3xl font-bold mb-3 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)] ${
+                    <h2 
+                      data-testid="level-title"
+                      className={`text-3xl font-bold mb-3 transition-colors drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)] ${
                       isCompleted 
                         ? 'text-[#E6C847] group-hover:text-[#F5E68C]' 
                         : 'text-[#C9A227] group-hover:text-[#E6C847]'
@@ -164,7 +169,9 @@ export default function HomePage() {
                       <span className="text-sm font-medium text-[#E6D5A7]" style={{ fontFamily: 'var(--font-merriweather)' }}>{character}</span>
                     </div>
 
-                    <p className="text-[#B8A77E] text-base leading-relaxed" style={{ fontFamily: 'var(--font-merriweather)' }}>
+                    <p 
+                      data-testid="level-description"
+                      className="text-[#B8A77E] text-base leading-relaxed" style={{ fontFamily: 'var(--font-merriweather)' }}>
                       {levelDescription}
                     </p>
                   </div>
@@ -172,7 +179,9 @@ export default function HomePage() {
                   {/* Play Button */}
                   {!isLocked && (
                     <div className="mt-6">
-                      <div className={`w-full py-3 px-6 rounded-lg text-center font-semibold transition-all border-2 shadow-lg ${
+                      <div 
+                        data-testid="level-start-button"
+                        className={`w-full py-3 px-6 rounded-lg text-center font-semibold transition-all border-2 shadow-lg ${
                         isCompleted
                           ? 'bg-[#C9A227] group-hover:bg-[#E6C847] text-[#0E1320] border-[#E6C847] hover:border-[#F5E68C] hover:shadow-[0_4px_20px_rgba(230,200,71,0.6)] font-bold'
                           : 'bg-[#8C6A3F] group-hover:bg-[#C9A227] text-[#E6D5A7] border-[#9A7920] hover:border-[#C9A227] hover:shadow-[0_4px_16px_rgba(201,162,39,0.4)]'

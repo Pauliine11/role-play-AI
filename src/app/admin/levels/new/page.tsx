@@ -94,6 +94,7 @@ export default function CreateLevelPage() {
         <div className="max-w-2xl mx-auto">
           <Link 
             href="/"
+            data-testid="back-to-home-button"
             className="inline-flex items-center gap-2 px-3 py-2 bg-[#141B2D] hover:bg-[#6B4F2F] border-2 border-[#3A2F1E] hover:border-[#C9A227] rounded-lg text-[#B8A77E] hover:text-[#E6D5A7] text-sm transition-all mb-4 font-semibold shadow-lg"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
@@ -110,13 +111,13 @@ export default function CreateLevelPage() {
 
       <div className="relative z-10 max-w-2xl mx-auto p-6 w-full">
         {error && (
-          <div className="bg-[#8B2C2C]/40 text-[#E6D5A7] p-4 rounded-xl mb-6 border-2 border-[#B84040] shadow-lg font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>
+          <div data-testid="error-message" className="bg-[#8B2C2C]/40 text-[#E6D5A7] p-4 rounded-xl mb-6 border-2 border-[#B84040] shadow-lg font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>
             {error}
           </div>
         )}
 
         {success && (
-          <div className="bg-[#C9A227]/60 text-[#0E1320] p-4 rounded-xl mb-6 border-2 border-[#E6C847] shadow-[0_0_20px_rgba(230,200,71,0.4)] font-bold" style={{ fontFamily: 'var(--font-merriweather)' }}>
+          <div data-testid="success-message" className="bg-[#C9A227]/60 text-[#0E1320] p-4 rounded-xl mb-6 border-2 border-[#E6C847] shadow-[0_0_20px_rgba(230,200,71,0.4)] font-bold" style={{ fontFamily: 'var(--font-merriweather)' }}>
             ✅ {t('admin.success')}
           </div>
         )}
@@ -128,6 +129,7 @@ export default function CreateLevelPage() {
                         {t('admin.form.titleLabel')}
                     </label>
                     <input
+                        data-testid="level-title-input"
                         type="text"
                         placeholder={t('admin.form.titlePlaceholder')}
                         className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all shadow-inner"
@@ -143,6 +145,7 @@ export default function CreateLevelPage() {
                           {t('admin.form.orderLabel')}
                       </label>
                       <input
+                          data-testid="level-order-input"
                           type="number"
                           className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all shadow-inner"
                           style={{ fontFamily: 'var(--font-merriweather)' }}
@@ -158,6 +161,7 @@ export default function CreateLevelPage() {
                         </label>
                         <div className="flex items-center space-x-3 bg-[#101827] p-3 rounded-lg border-2 border-[#3A2F1E] h-[46px]">
                             <input
+                                data-testid="level-is-active-checkbox"
                                 type="checkbox"
                                 id="is_active"
                                 className="w-5 h-5 accent-[#C9A227] bg-[#101827] border-[#3A2F1E] rounded focus:ring-[#C9A227] cursor-pointer"
@@ -175,6 +179,7 @@ export default function CreateLevelPage() {
                         {t('admin.form.descriptionLabel')}
                     </label>
                     <textarea
+                        data-testid="level-description-input"
                         className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all resize-none shadow-inner"
                         style={{ fontFamily: 'var(--font-merriweather)' }}
                         rows={3}
@@ -189,6 +194,7 @@ export default function CreateLevelPage() {
                         {t('admin.form.contentLabel')}
                     </label>
                     <textarea
+                        data-testid="level-content-textarea"
                         className="block p-3 w-full font-mono text-xs text-[#C9A227] bg-[#0E1320]/90 rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all resize-none shadow-inner"
                         rows={8}
                         placeholder={t('admin.form.contentPlaceholder')}
@@ -201,6 +207,7 @@ export default function CreateLevelPage() {
                 </div>
 
                 <Button 
+                    data-testid="level-submit-button"
                     type="submit" 
                     isLoading={isSubmitting} 
                     variant="primary"

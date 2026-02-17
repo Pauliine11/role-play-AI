@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "check-secrets": "grep -r 'sk-' src/ --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' && echo '❌ WARNING: Possible API keys found!' || echo '✅ No hardcoded API keys found'",
-    "pre-push": "npm run check-secrets && git status | grep -q '.env.local' && echo '❌ ERROR: .env.local should not be committed!' && exit 1 || echo '✅ Safe to push'"
+    "pre-push": "npm run check-secrets && git status | grep -q '.env.local' && echo '❌ ERROR: .env.local should not be committed!' && exit 1 || echo '✅ Safe to push'",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug"
   },
   "dependencies": {
     "@clerk/localizations": "^3.28.5",
@@ -26,9 +30,12 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.71.1",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@clerk/testing": "^1.13.35",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20.19.25",

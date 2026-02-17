@@ -297,7 +297,7 @@ function ImmersiveRPGContent() {
         
         {/* Avatar / État (Gauche) */}
         <div className="md:w-1/3 flex flex-col items-center justify-center p-6 bg-[#141B2D]/80 rounded-xl border-2 border-[#3A2F1E] backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
-          <div className="relative w-48 h-48 md:w-64 md:h-64 mb-6 rounded-full overflow-hidden border-4 border-[#C9A227]/50 shadow-[0_0_24px_rgba(201,162,39,0.2)]">
+          <div data-testid="character-avatar" className="relative w-48 h-48 md:w-64 md:h-64 mb-6 rounded-full overflow-hidden border-4 border-[#C9A227]/50 shadow-[0_0_24px_rgba(201,162,39,0.2)]">
             <Image
               src={moodImage}
               alt={character}
@@ -306,8 +306,8 @@ function ImmersiveRPGContent() {
             />
           </div>
           <div className="text-center space-y-3">
-            <h2 className="text-2xl font-bold text-[#C9A227] mb-2 drop-shadow-lg" style={{ fontFamily: 'var(--font-cinzel)' }}>{character}</h2>
-            <p className="text-[#E6D5A7] italic font-medium text-lg" style={{ fontFamily: 'var(--font-merriweather)' }}>
+            <h2 data-testid="character-name" className="text-2xl font-bold text-[#C9A227] mb-2 drop-shadow-lg" style={{ fontFamily: 'var(--font-cinzel)' }}>{character}</h2>
+            <p data-testid="character-mood" className="text-[#E6D5A7] italic font-medium text-lg" style={{ fontFamily: 'var(--font-merriweather)' }}>
               {isHagrid ? (
                 gameState.mood === 'nervous' || gameState.mood === 'sad' ? t('rpg.mood.hagrid.nervous') :
                 gameState.mood === 'angry' ? t('rpg.mood.hagrid.angry') :
@@ -324,18 +324,16 @@ function ImmersiveRPGContent() {
             </p>
             
             {/* Indicateur de tours */}
-            {turnNumber > 0 && (
-              <div className="mt-4 p-3 bg-[#141B2D]/60 rounded-lg border-2 border-[#3A2F1E] shadow-inner">
-                <p className={`text-sm font-semibold ${turnNumber >= 8 ? 'text-[#D4A259]' : 'text-[#B8A77E]'}`} style={{ fontFamily: 'var(--font-cinzel)' }}>
-                  {language === 'fr' ? '🎯 Tour' : '🎯 Turn'} {turnNumber}/10
+            <div className="mt-4 p-3 bg-[#141B2D]/60 rounded-lg border-2 border-[#3A2F1E] shadow-inner">
+              <p data-testid="turn-counter" className={`text-sm font-semibold ${turnNumber >= 8 ? 'text-[#D4A259]' : 'text-[#B8A77E]'}`} style={{ fontFamily: 'var(--font-cinzel)' }}>
+                {language === 'fr' ? '🎯 Tour' : '🎯 Turn'} {turnNumber}/10
+              </p>
+              {turnNumber >= 8 && (
+                <p className="text-xs text-[#D4A259] mt-1 font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>
+                  {language === 'fr' ? '⏰ Finale proche !' : '⏰ Finale near!'}
                 </p>
-                {turnNumber >= 8 && (
-                  <p className="text-xs text-[#D4A259] mt-1 font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>
-                    {language === 'fr' ? '⏰ Finale proche !' : '⏰ Finale near!'}
-                  </p>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
@@ -343,10 +341,12 @@ function ImmersiveRPGContent() {
         <div className="md:w-2/3 flex flex-col bg-[#141B2D]/80 rounded-xl border-2 border-[#3A2F1E] backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden relative">
           
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+          <div data-testid="chat-messages" className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`
+                <div 
+                  data-testid={msg.role === 'assistant' ? 'assistant-message' : 'user-message'}
+                  className={`
                   max-w-[80%] p-4 rounded-xl text-sm md:text-base leading-relaxed
                   ${msg.role === 'user' 
                     ? 'bg-[#6B4F2F] text-[#E6D5A7] rounded-br-none shadow-lg border-2 border-[#C9A227]/50' 
@@ -378,8 +378,10 @@ function ImmersiveRPGContent() {
             const isLastLevel = !nextLevel || nextLevel.status === 'locked';
 
             return (
-              <div className="absolute inset-0 bg-[#0E1320]/95 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 z-50 animate-fade-in border-4 border-[#C9A227] shadow-[inset_0_0_60px_rgba(201,162,39,0.1)]">
-                <h2 className={`text-5xl font-bold mb-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] ${gameState.game_won ? 'text-[#E6C847] animate-shimmer-gold' : 'text-[#8B2C2C]'}`} style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.05em' }}>
+              <div data-testid="game-over-overlay" className="absolute inset-0 bg-[#0E1320]/95 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 z-50 animate-fade-in border-4 border-[#C9A227] shadow-[inset_0_0_60px_rgba(201,162,39,0.1)]">
+                <h2 
+                  data-testid={gameState.game_won ? 'victory-title' : 'defeat-title'}
+                  className={`text-5xl font-bold mb-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] ${gameState.game_won ? 'text-[#E6C847] animate-shimmer-gold' : 'text-[#8B2C2C]'}`} style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.05em' }}>
                   {gameState.game_won ? t('rpg.victory') : t('rpg.gameOver')}
                 </h2>
                 <p className="text-xl text-[#E6D5A7] mb-8 max-w-lg" style={{ fontFamily: 'var(--font-merriweather)' }}>
@@ -391,6 +393,7 @@ function ImmersiveRPGContent() {
                 {/* Boutons d'action */}
                 <div className="flex gap-4">
                   <button 
+                    data-testid="restart-button"
                     onClick={() => window.location.reload()}
                     className="px-8 py-3 bg-[#141B2D] hover:bg-[#6B4F2F] text-[#E6D5A7] rounded-lg font-bold transition-all active:scale-95 border-2 border-[#3A2F1E] hover:border-[#C9A227] shadow-lg hover:shadow-[0_4px_16px_rgba(201,162,39,0.2)]"
                     style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.05em' }}
@@ -416,6 +419,7 @@ function ImmersiveRPGContent() {
                         </button>
                       ) : (
                         <button 
+                          data-testid="home-button"
                           onClick={() => window.location.href = '/'}
                           className="px-8 py-3 bg-[#6B4F2F] hover:bg-[#8C6A3F] text-[#E6D5A7] rounded-lg font-bold transition-all active:scale-95 flex items-center gap-2 border-2 border-[#C9A227] shadow-lg hover:shadow-[0_4px_16px_rgba(201,162,39,0.3)]"
                           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.05em' }}
@@ -428,6 +432,7 @@ function ImmersiveRPGContent() {
                   
                   {gameState.game_over && (
                     <button 
+                      data-testid="home-button"
                       onClick={() => window.location.href = '/'}
                       className="px-8 py-3 bg-[#6B4F2F] hover:bg-[#8C6A3F] text-[#E6D5A7] rounded-lg font-bold transition-all active:scale-95 border-2 border-[#C9A227] shadow-lg hover:shadow-[0_4px_16px_rgba(201,162,39,0.3)]"
                       style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.05em' }}
@@ -461,6 +466,7 @@ function ImmersiveRPGContent() {
           <div className="p-4 bg-[#0E1320]/70 border-t-2 border-[#3A2F1E]">
             <form onSubmit={handleSendMessage} className="relative">
               <input
+                data-testid="message-input"
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -470,6 +476,7 @@ function ImmersiveRPGContent() {
                 disabled={isPending || gameState.game_over || gameState.game_won}
               />
               <button
+                data-testid="send-button"
                 type="submit"
                 disabled={!inputText.trim() || isPending || gameState.game_over || gameState.game_won}
                 className="absolute right-2 top-2 bottom-2 aspect-square bg-[#6B4F2F] hover:bg-[#8C6A3F] text-[#E6D5A7] rounded-lg flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed border-2 border-[#C9A227] shadow-lg hover:shadow-[0_0_12px_rgba(201,162,39,0.4)]"

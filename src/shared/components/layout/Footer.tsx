@@ -8,7 +8,7 @@ interface FooterProps {
 
 export function Footer({ variant = 'default' }: FooterProps) {
   const { isOpen, isMobile } = useSidebar();
-  const isRPG = variant === 'immersive';
+  const _isRPG = variant === 'immersive';
   const currentYear = new Date().getFullYear();
 
   /**

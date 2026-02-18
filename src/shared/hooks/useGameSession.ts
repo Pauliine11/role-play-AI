@@ -26,8 +26,8 @@ export function useGameSession({
 }: UseGameSessionOptions) {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const startTimeRef = useRef<number>(Date.now());
-  const messageCountRef = useRef<number>(0);
+  const [messageCount, setMessageCount] = useState(0);
+  const startTimeRef = useRef<number>(0);
   const lastDepartureRiskRef = useRef<number>(50);
 
   // Initialiser la session au montage
@@ -52,7 +52,7 @@ export function useGameSession({
       if (!sessionId || !autoSave) return;
 
       await saveConversationMessage(sessionId, levelId, message, mood, departureRisk);
-      messageCountRef.current++;
+      setMessageCount(prev => prev + 1);
       
       if (departureRisk !== undefined) {
         lastDepartureRiskRef.current = departureRisk;
@@ -98,7 +98,7 @@ export function useGameSession({
         sessionId,
         outcome,
         lastDepartureRiskRef.current,
-        messageCountRef.current,
+        messageCount,
         durationSeconds
       );
 
@@ -126,12 +126,12 @@ export function useGameSession({
         }
 
         // Beaucoup de messages
-        if (messageCountRef.current >= 100) {
+        if (messageCount >= 100) {
           await unlockAchievement('wordsmith');
         }
       }
     },
-    [sessionId, checkAchievements, levelId]
+    [sessionId, checkAchievements, levelId, messageCount]
   );
 
   /**
@@ -155,6 +155,19 @@ export function useGameSession({
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [sessionId, abandonSession]);
 
+  // Track duration in state to avoid impure function in render
+  const [duration, setDuration] = useState(0);
+  
+  useEffect(() => {
+    if (!startTimeRef.current) return;
+    
+    const interval = setInterval(() => {
+      setDuration(Math.floor((Date.now() - startTimeRef.current) / 1000));
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return {
     sessionId,
     isInitialized,
@@ -162,7 +175,7 @@ export function useGameSession({
     recordChoice,
     endSession,
     abandonSession,
-    messageCount: messageCountRef.current,
-    duration: Math.floor((Date.now() - startTimeRef.current) / 1000)
+    messageCount,
+    duration
   };
 }

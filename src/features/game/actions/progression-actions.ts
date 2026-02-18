@@ -5,14 +5,6 @@ import { supabase } from '@/shared/lib/supabase';
 import { StoryLevel, LevelStatus } from '@/features/game/types';
 import { revalidatePath } from 'next/cache';
 
-interface LevelRow {
-  id: string;
-  title: string;
-  description: string | null;
-  order_index: number;
-  is_active: boolean;
-}
-
 interface UserLevelProgressRow {
   level_id: string;
   is_completed: boolean;
@@ -45,8 +37,8 @@ export async function fetchUserProgression(): Promise<StoryLevel[]> {
 
     const completedLevelIds = new Set(
       (progressData || [])
-        .filter((p: any) => p.is_completed)
-        .map((p: any) => p.level_id)
+        .filter((p: UserLevelProgressRow) => p.is_completed)
+        .map((p: UserLevelProgressRow) => p.level_id)
     );
 
     // 3. Merge and determine status

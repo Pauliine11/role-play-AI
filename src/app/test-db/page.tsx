@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { fetchUserProgression } from '@/features/game/actions/progression-actions';
 import { useStoryProgression } from '@/features/game/hooks/useStoryProgression';
+import { StoryLevel } from '@/features/game/types';
 
 export default function TestDBPage() {
-  const [dbLevels, setDbLevels] = useState<any[]>([]);
+  const [dbLevels, setDbLevels] = useState<StoryLevel[]>([]);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const { levels: hookLevels, isLoading: hookLoading } = useStoryProgression();
@@ -17,9 +19,9 @@ export default function TestDBPage() {
         const result = await fetchUserProgression();
         console.log('🧪 TEST: Résultat:', result);
         setDbLevels(result);
-      } catch (e: any) {
+      } catch (e) {
         console.error('🧪 TEST: Erreur:', e);
-        setError(e.message);
+        setError(e instanceof Error ? e.message : 'Unknown error');
       } finally {
         setLoading(false);
       }
@@ -56,7 +58,7 @@ export default function TestDBPage() {
               <p className="mt-2">Causes possibles:</p>
               <ul className="list-disc ml-6 mt-2">
                 <li>Base de données vide → Exécutez <code className="bg-gray-700 px-2 py-1 rounded">database/insert_levels.sql</code></li>
-                <li>Pas connecté → Cliquez sur "Sign In"</li>
+                <li>Pas connecté → Cliquez sur &quot;Sign In&quot;</li>
                 <li>Problème Supabase → Vérifiez .env.local</li>
               </ul>
             </div>
@@ -111,7 +113,7 @@ export default function TestDBPage() {
 
         {/* Environnement */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-bold mb-4">🔐 Variables d'Environnement</h2>
+          <h2 className="text-xl font-bold mb-4">🔐 Variables d&apos;Environnement</h2>
           
           <div className="space-y-2">
             <div>
@@ -135,7 +137,7 @@ export default function TestDBPage() {
           
           {dbLevels.length === 0 && (
             <div>
-              <p className="mb-4"><strong>Si aucun niveau n'est trouvé:</strong></p>
+              <p className="mb-4"><strong>Si aucun niveau n&apos;est trouvé:</strong></p>
               <ol className="list-decimal ml-6 space-y-2">
                 <li>Ouvrir Supabase Dashboard → SQL Editor</li>
                 <li>Copier le contenu de <code className="bg-gray-700 px-2 py-1 rounded">database/insert_levels.sql</code></li>
@@ -152,7 +154,7 @@ export default function TestDBPage() {
               <ol className="list-decimal ml-6 space-y-2">
                 <li>Vérifier la console (F12) pour les erreurs</li>
                 <li>Vérifier que vous êtes connecté (Clerk Sign In)</li>
-                <li>Rafraîchir la page d'accueil</li>
+                <li>Rafraîchir la page d&apos;accueil</li>
               </ol>
             </div>
           )}
@@ -160,7 +162,7 @@ export default function TestDBPage() {
           {dbLevels.length > 0 && hookLevels.length > 0 && (
             <div>
               <p className="mb-4"><strong>✅ Tout fonctionne !</strong></p>
-              <p>Retournez sur la <a href="/" className="text-blue-400 underline">page d'accueil</a> pour voir les niveaux.</p>
+              <p>Retournez sur la <Link href="/" className="text-blue-400 underline">page d&apos;accueil</Link> pour voir les niveaux.</p>
             </div>
           )}
         </div>

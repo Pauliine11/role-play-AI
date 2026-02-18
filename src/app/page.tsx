@@ -8,11 +8,12 @@ import { Sidebar } from '@/shared/components/layout/Sidebar';
 import { Footer } from '@/shared/components/layout/Footer';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useLanguage } from '@/shared/providers/LanguageContext';
+import { Badge } from '@/shared/components/ui/badge';
 
 export default function HomePage() {
   const { levels, isLoading } = useStoryProgression();
   const { isOpen, isMobile } = useSidebar();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -70,7 +71,6 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {levels.map((level) => {
             const character = level.content?.character || 'Hermione Granger';
-            const isHermione = character.toLowerCase().includes('hermione');
             const isHagrid = character.toLowerCase().includes('hagrid');
             const isRon = character.toLowerCase().includes('ron');
             const isLuna = character.toLowerCase().includes('luna');
@@ -139,17 +139,13 @@ export default function HomePage() {
                 <div className="relative z-10 p-8 min-h-[320px] flex flex-col justify-between">
                   {/* Status Badge */}
                   <div className="flex justify-between items-start mb-4">
-                    <div 
+                    <Badge 
                       data-testid="level-status"
-                      className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm transition-all ${
-                      isCompleted
-                        ? 'bg-[#C9A227]/60 text-[#0E1320] border-2 border-[#E6C847] shadow-[0_0_16px_rgba(230,200,71,0.5)] font-bold'
-                        : isLocked
-                        ? 'bg-[#1a1410]/60 text-[#8C7A5E] border border-[#3A2F1E]'
-                        : 'bg-[#8C6A3F]/50 text-[#E6D5A7] border border-[#9A7920] shadow-[0_0_8px_rgba(140,106,63,0.3)]'
-                    }`} style={{ fontFamily: 'var(--font-cinzel)' }}>
+                      variant={isCompleted ? 'completed' : isLocked ? 'locked' : 'available'}
+                      size="md"
+                    >
                       {isCompleted ? t('rpg.status.completed') : isLocked ? t('rpg.status.locked') : t('rpg.status.available')}
-                    </div>
+                    </Badge>
                   </div>
 
                   {/* Title & Character */}

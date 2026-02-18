@@ -22,10 +22,13 @@ export async function GET() {
     }
 
     return NextResponse.json({ data });
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Unexpected error:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { 
+        error: 'Internal server error', 
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
@@ -83,10 +86,13 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ data, message: 'Level created successfully' }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Unexpected error in POST /api/levels:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { 
+        error: 'Internal server error', 
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

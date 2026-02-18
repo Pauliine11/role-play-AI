@@ -72,7 +72,7 @@ const INITIAL_GAME_STATE: GameState = {
  * 
  * @deprecated Utiliser playTurn() à la place
  */
-export async function submitGameMove(previousState: GameState, formData: FormData): Promise<GameState> {
+export async function submitGameMove(_previousState: GameState, _formData: FormData): Promise<GameState> {
   return INITIAL_GAME_STATE; // Placeholder - Non implémentée
 }
 

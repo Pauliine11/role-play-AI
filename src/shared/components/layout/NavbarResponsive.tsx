@@ -1,9 +1,9 @@
 'use client';
 
 import { useSidebar } from '@/shared/hooks/useSidebar';
-import Image from 'next/image';
 import { LanguageToggle } from '@/shared/components/ui/LanguageToggle';
 import { useLanguage } from '@/shared/providers/LanguageContext';
+import { Button } from '@/shared/components/ui/button';
 import {
   SignInButton,
   SignUpButton,
@@ -19,7 +19,7 @@ interface NavbarProps {
 export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
   const { isOpen, toggle, isMobile } = useSidebar();
   const { t } = useLanguage();
-  const isRPG = variant === 'immersive';
+  const _isRPG = variant === 'immersive';
 
   /**
    * Thème médiéval : pierre sombre, or, parchemin
@@ -39,9 +39,9 @@ export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
       <div className="h-16 flex items-center justify-between px-4 md:px-8">
         {/* Bouton Menu Hamburger (Mobile uniquement) */}
         {isMobile && (
-          <button
+          <Button
+            variant="hamburger"
             onClick={toggle}
-            className={`p-2 rounded-lg transition-all active:scale-95 ${theme.icon}`}
             aria-label="Toggle menu"
           >
             <svg
@@ -59,7 +59,7 @@ export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
                 <path d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
-          </button>
+          </Button>
         )}
 
         {/* Titre - responsive */}
@@ -76,16 +76,26 @@ export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
           
           <SignedOut>
             <SignUpButton mode="modal">
-              <button className={`${theme.buttonSecondary} text-xs md:text-sm px-3 md:px-4 py-2 rounded-lg transition-all font-semibold`} style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
+              <Button 
+                variant="authSignup" 
+                size="sm"
+                className="text-xs md:text-sm px-3 md:px-4"
+                style={{ letterSpacing: '0.03em' }}
+              >
                 <span className="hidden sm:inline">S&apos;inscrire</span>
                 <span className="sm:hidden">Inscription</span>
-              </button>
+              </Button>
             </SignUpButton>
             <SignInButton mode="modal">
-              <button className={`${theme.button} text-xs md:text-sm px-3 md:px-4 py-2 rounded-lg transition-all font-semibold hover:shadow-[0_4px_12px_rgba(201,162,39,0.3)]`} style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
+              <Button 
+                variant="authSignin"
+                size="sm"
+                className="text-xs md:text-sm px-3 md:px-4"
+                style={{ letterSpacing: '0.03em' }}
+              >
                 <span className="hidden sm:inline">Se connecter</span>
                 <span className="sm:hidden">Connexion</span>
-              </button>
+              </Button>
             </SignInButton>
           </SignedOut>
           

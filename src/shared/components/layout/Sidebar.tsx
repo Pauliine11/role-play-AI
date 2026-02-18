@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useLanguage } from '@/shared/providers/LanguageContext';
+import { Button } from '@/shared/components/ui/button';
 
 interface NavItem {
   label: string;
@@ -23,7 +24,7 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
   const { isOpen, toggle, isMobile } = useSidebar();
   const { t } = useLanguage();
   
-  const isRPG = variant === 'immersive';
+  const _isRPG = variant === 'immersive';
   
   // Styles conditionnels pour le thème Hogwarts (RPG)
   /**
@@ -75,9 +76,10 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
       }`}>
       
       {/* Bouton Toggle - Centré verticalement */}
-      <button
+      <Button
+        variant="sidebarToggle"
         onClick={toggle}
-        className={`absolute top-1/2 -translate-y-1/2 -right-3 rounded-full p-1.5 transition-all hover:scale-105 shadow-sm z-50 group border ${theme.toggle}`}
+        className="absolute top-1/2 -translate-y-1/2 -right-3 z-50 group"
         title={isOpen ? 'Réduire la sidebar' : 'Agrandir la sidebar'}
         aria-label={isOpen ? 'Réduire la sidebar' : 'Agrandir la sidebar'}
       >
@@ -92,7 +94,7 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
         >
           <path d="M15 19l-7-7 7-7"></path>
         </svg>
-      </button>
+      </Button>
       
       {/* Logo et Titre */}
       <div className={`p-4 border-b ${theme.border}`}>
@@ -112,7 +114,6 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
       {/* Navigation */}
       <nav className="p-4 flex-1">
         <ul className="space-y-2">
-          {/* @ts-ignore */}
           {navItems.map((item: NavItem) => {
             const isActive = pathname === item.href;
             

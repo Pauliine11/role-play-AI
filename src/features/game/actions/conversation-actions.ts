@@ -139,7 +139,10 @@ export async function savePlayerChoice(
 /**
  * Débloquer un achievement
  */
-export async function unlockAchievement(achievementId: string, metadata?: any) {
+export async function unlockAchievement(
+  achievementId: string, 
+  metadata?: Record<string, string | number | boolean>
+) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unauthorized');
 

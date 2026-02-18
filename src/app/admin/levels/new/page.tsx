@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { levelSchema } from '@/features/levels/level';
-import { Input } from '@/shared/components/ui/Input';
-import { Button } from '@/shared/components/ui/Button';
+import { Button } from '@/shared/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import Link from 'next/link';
@@ -54,7 +52,7 @@ export default function CreateLevelPage() {
       if (data.content) {
         try {
           parsedContent = JSON.parse(data.content);
-        } catch (e) {
+        } catch (_e) {
           setError("Le champ Contenu doit être un JSON valide");
           return;
         }

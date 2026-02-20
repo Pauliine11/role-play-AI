@@ -10,6 +10,7 @@ interface CharacterAvatarProps {
   turnNumber: number;
   language: 'fr' | 'en';
   t: (key: string) => string;
+  characterFolder?: string;
 }
 
 export function CharacterAvatar({
@@ -19,8 +20,21 @@ export function CharacterAvatar({
   isHagrid,
   turnNumber,
   language,
-  t
+  t,
+  characterFolder
 }: CharacterAvatarProps) {
+  // Déterminer le positionnement selon le personnage
+  const isRon = characterFolder === 'ron' || character.toLowerCase().includes('ron');
+  const isLuna = characterFolder === 'luna' || character.toLowerCase().includes('luna');
+  
+  let objectPosition = 'center center';
+  if (isHagrid) {
+    objectPosition = 'center 30%'; // Hagrid plus haut
+  } else if (isRon) {
+    objectPosition = 'center 20%'; // Ron légèrement plus haut
+  } else if (isLuna) {
+    objectPosition = 'center 15%'; // Luna légèrement plus haut
+  }
   return (
     <div className="md:w-1/3 flex flex-col items-center justify-center p-6 bg-[#141B2D]/80 rounded-xl border-2 border-[#3A2F1E] backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
       <div data-testid="character-avatar" className="relative w-48 h-48 md:w-64 md:h-64 mb-6 rounded-full overflow-hidden border-4 border-[#C9A227]/50 shadow-[0_0_24px_rgba(201,162,39,0.2)]">
@@ -29,6 +43,7 @@ export function CharacterAvatar({
           alt={character}
           fill
           className="object-cover transition-all duration-700"
+          style={{ objectPosition }}
         />
       </div>
       <div className="text-center space-y-3">

@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import { Button } from '@/shared/components/ui/button';
+import { SettingsMenu } from '@/features/game/components/SettingsMenu';
 
 interface NavItem {
   label: string;
@@ -23,6 +25,7 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
   const pathname = usePathname();
   const { isOpen, toggle, isMobile } = useSidebar();
   const { t } = useLanguage();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
   const _isRPG = variant === 'immersive';
   
@@ -53,10 +56,17 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
     { 
       label: t('sidebar.admin') || 'Admin - Créer Niveau', 
       href: '/admin/levels/new', 
-      icon: '⚙️',
+      icon: '🔧',
       description: t('sidebar.admin.desc') || 'Ajouter un nouveau niveau'
     },
   ];
+
+  // Item spécial pour les préférences (pas un lien, mais un bouton)
+  const settingsItem = {
+    label: 'Préférences d\'animation',
+    icon: '⚙️',
+    description: 'Personnaliser les effets visuels'
+  };
 
   return (
     <>
@@ -112,7 +122,7 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="p-4 flex-1">
+      <nav className="p-4 flex-1 overflow-y-auto">
         <ul className="space-y-2">
           {navItems.map((item: NavItem) => {
             const isActive = pathname === item.href;
@@ -175,6 +185,32 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
               </li>
             );
           })}
+          
+          {/* Bouton Préférences d'animation */}
+          <li>
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className={`
+                group relative flex items-center rounded-lg transition-all duration-200 w-full
+                ${isOpen ? 'gap-3 px-4 py-3' : 'justify-center p-3'}
+                ${theme.text} ${theme.hoverBg}
+              `}
+              title={!isOpen ? settingsItem.label : undefined}
+            >
+              <span className="text-xl transition-transform group-hover:scale-110">
+                {settingsItem.icon}
+              </span>
+              
+              {isOpen && (
+                <div className="flex-1">
+                  <div className="font-medium">{settingsItem.label}</div>
+                  <div className="text-xs mt-0.5 text-[#8C7A5E] opacity-90">
+                    {settingsItem.description}
+                  </div>
+                </div>
+              )}
+            </button>
+          </li>
         </ul>
       </nav>
 
@@ -196,6 +232,9 @@ export function Sidebar({ variant = 'default' }: SidebarProps) {
         )}
       </div>
     </aside>
+    
+    {/* Modal des préférences */}
+    <SettingsMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </>
   );
 }

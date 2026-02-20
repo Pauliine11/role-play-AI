@@ -1,0 +1,75 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond dégradé sombre magique -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0E1320;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A2332;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0E1320;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0%" style="stop-color:#C9A227;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#C9A227;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Fond -->
+  <rect width="1200" height="800" fill="url(#bgGrad)"/>
+  
+  <!-- Étoiles magiques -->
+  <circle cx="150" cy="100" r="2" fill="#E6C847" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="150" r="1.5" fill="#E6C847" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="900" cy="200" r="2" fill="#E6C847" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1050" cy="120" r="1.5" fill="#E6C847" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="4.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="700" cy="80" r="2" fill="#E6C847" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="3.8s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Lueur centrale -->
+  <circle cx="600" cy="400" r="300" fill="url(#glow)"/>
+  
+  <!-- Icône centrale (livre/grimoire) -->
+  <g transform="translate(600, 400)">
+    <!-- Livre ouvert -->
+    <path d="M -80 -40 L -80 40 L 0 50 L 0 -30 Z" fill="#6B4F2F" stroke="#C9A227" stroke-width="2"/>
+    <path d="M 80 -40 L 80 40 L 0 50 L 0 -30 Z" fill="#6B4F2F" stroke="#C9A227" stroke-width="2"/>
+    
+    <!-- Lignes de texte sur page gauche -->
+    <line x1="-60" y1="-10" x2="-20" y2="-10" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="-60" y1="0" x2="-15" y2="0" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="-60" y1="10" x2="-25" y2="10" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="-60" y1="20" x2="-20" y2="20" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    
+    <!-- Lignes de texte sur page droite -->
+    <line x1="20" y1="-10" x2="60" y2="-10" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="15" y1="0" x2="60" y2="0" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="25" y1="10" x2="60" y2="10" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    <line x1="20" y1="20" x2="60" y2="20" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+    
+    <!-- Particules magiques -->
+    <circle cx="-40" cy="-60" r="3" fill="#E6C847">
+      <animate attributeName="cy" values="-60;-80;-60" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="30" cy="-65" r="2.5" fill="#E6C847">
+      <animate attributeName="cy" values="-65;-85;-65" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.3;1" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="-55" r="2" fill="#E6C847">
+      <animate attributeName="cy" values="-55;-75;-55" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Texte -->
+  <text x="600" y="650" text-anchor="middle" fill="#B8A77E" font-size="20" font-family="serif" opacity="0.7">
+    Le Grimoire Éveillé
+  </text>
+</svg>

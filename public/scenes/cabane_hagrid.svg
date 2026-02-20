@@ -1,0 +1,93 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond forêt sombre -->
+  <defs>
+    <linearGradient id="bgForest" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A2418;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0E120D;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="moonGlow">
+      <stop offset="0%" style="stop-color:#E6E6E6;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#E6E6E6;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Fond -->
+  <rect width="1200" height="800" fill="url(#bgForest)"/>
+  
+  <!-- Lune -->
+  <circle cx="950" cy="150" r="60" fill="#E6E6E6" opacity="0.9"/>
+  <circle cx="950" cy="150" r="100" fill="url(#moonGlow)"/>
+  
+  <!-- Arbres sombres (silhouettes) -->
+  <ellipse cx="100" cy="400" rx="80" ry="300" fill="#0A0F0A" opacity="0.8"/>
+  <ellipse cx="1100" cy="450" rx="90" ry="280" fill="#0A0F0A" opacity="0.8"/>
+  <ellipse cx="200" cy="350" rx="60" ry="250" fill="#0A0F0A" opacity="0.7"/>
+  <ellipse cx="1000" cy="400" rx="70" ry="270" fill="#0A0F0A" opacity="0.7"/>
+  
+  <!-- Cabane d'Hagrid -->
+  <g transform="translate(600, 450)">
+    <!-- Murs -->
+    <rect x="-120" y="-80" width="240" height="160" fill="#5A4A2E" stroke="#3A2F1E" stroke-width="3"/>
+    
+    <!-- Toit -->
+    <polygon points="0,-120 -160,-80 160,-80" fill="#4A3A2A" stroke="#3A2F1E" stroke-width="3"/>
+    
+    <!-- Porte -->
+    <rect x="-30" y="0" width="60" height="80" fill="#3A2F1E" stroke="#2A1F0E" stroke-width="2"/>
+    <circle cx="15" cy="40" r="3" fill="#C9A227"/>
+    
+    <!-- Fenêtres -->
+    <rect x="-90" y="-40" width="40" height="40" fill="#FFA500" opacity="0.7" stroke="#3A2F1E" stroke-width="2">
+      <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <line x1="-90" y1="-20" x2="-50" y2="-20" stroke="#3A2F1E" stroke-width="2"/>
+    <line x1="-70" y1="-40" x2="-70" y2="0" stroke="#3A2F1E" stroke-width="2"/>
+    
+    <rect x="50" y="-40" width="40" height="40" fill="#FFA500" opacity="0.6" stroke="#3A2F1E" stroke-width="2">
+      <animate attributeName="opacity" values="0.6;0.85;0.6" dur="3.5s" repeatCount="indefinite"/>
+    </rect>
+    <line x1="50" y1="-20" x2="90" y2="-20" stroke="#3A2F1E" stroke-width="2"/>
+    <line x1="70" y1="-40" x2="70" y2="0" stroke="#3A2F1E" stroke-width="2"/>
+    
+    <!-- Cheminée -->
+    <rect x="80" y="-100" width="30" height="50" fill="#4A3A2A" stroke="#3A2F1E" stroke-width="2"/>
+    <rect x="75" y="-105" width="40" height="8" fill="#5A4A2E"/>
+    
+    <!-- Fumée -->
+    <circle cx="95" cy="-120" r="8" fill="#B8A77E" opacity="0.4">
+      <animate attributeName="cy" values="-120;-160;-120" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="8;15;8" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="105" cy="-130" r="10" fill="#B8A77E" opacity="0.3">
+      <animate attributeName="cy" values="-130;-180;-130" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="10;18;10" dur="5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Herbe/buissons au premier plan -->
+  <ellipse cx="300" cy="700" rx="150" ry="60" fill="#1A3A1A" opacity="0.8"/>
+  <ellipse cx="900" cy="720" rx="180" ry="70" fill="#1A3A1A" opacity="0.8"/>
+  <ellipse cx="100" cy="750" rx="120" ry="50" fill="#1A3A1A" opacity="0.9"/>
+  <ellipse cx="1100" cy="760" rx="140" ry="60" fill="#1A3A1A" opacity="0.9"/>
+  
+  <!-- Lucioles/particules magiques -->
+  <circle cx="350" cy="350" r="2" fill="#E6C847">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="350;320;350" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="800" cy="380" r="2" fill="#E6C847">
+    <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+    <animate attributeName="cy" values="380;350;380" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="450" cy="300" r="1.5" fill="#E6C847">
+    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+    <animate attributeName="cy" values="300;270;300" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Texte -->
+  <text x="600" y="750" text-anchor="middle" fill="#C9A227" font-size="28" font-family="serif" font-weight="bold" opacity="0.9">
+    Cabane d'Hagrid
+  </text>
+</svg>

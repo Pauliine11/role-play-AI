@@ -88,24 +88,61 @@ VALUES (
 )
 ON CONFLICT DO NOTHING;
 
--- Niveau 3 : Luna Lovegood - Tour de Serdaigle (optionnel)
+-- Niveau 3 : Ron Weasley - Salle Commune Gryffondor
+INSERT INTO levels (title, description, order_index, is_active, content, created_at)
+VALUES (
+  'La Salle Commune - Ron Weasley',
+  'Ron doute de ses capacités et se compare sans cesse à ses frères. Aidez-le à retrouver confiance.',
+  3,
+  true,
+  '{
+    "character": "Ron Weasley",
+    "initial_mood": "sad",
+    "location": "Salle Commune Gryffondor",
+    "time": "Après les cours",
+    "initial_message": "Encore raté... *froisse un parchemin d''un coup de poing* Pourquoi je me donne même la peine d''essayer ? De toute façon, je serai toujours le moins bon...",
+    "objective": "Aider Ron à surmonter son complexe d''infériorité",
+    "difficulty": "medium",
+    "win_conditions": [
+      "Ron retrouve confiance en ses capacités",
+      "Il accepte d''être lui-même",
+      "Son estime de soi s''améliore"
+    ],
+    "lose_conditions": [
+      "Ron se referme complètement",
+      "Il abandonne ses efforts",
+      "La situation empire"
+    ],
+    "suggested_actions": [
+      "Qu''est-ce qui s''est passé ?",
+      "Tu es meilleur que tu ne le crois",
+      "Parler de ses frères",
+      "Lui rappeler ses réussites"
+    ],
+    "context": "Ron Weasley, le meilleur ami de Harry Potter, souffre d''un profond complexe d''infériorité. Il se compare constamment à ses frères brillants et à Harry, le héros de Poudlard. Le joueur doit l''aider à voir ses propres qualités et à accepter qu''il n''a pas besoin d''être le meilleur pour avoir de la valeur."
+  }'::jsonb,
+  NOW()
+)
+ON CONFLICT DO NOTHING;
+
+-- Niveau 4 : Luna Lovegood - Tour de Serdaigle
 INSERT INTO levels (title, description, order_index, is_active, content, created_at)
 VALUES (
   'Tour de Serdaigle - Luna et les Nargoles',
   'Luna Lovegood cherche des créatures invisibles. Aidez-la dans sa quête particulière.',
-  3,
-  false,  -- Désactivé par défaut, à activer manuellement
+  4,
+  true,
   '{
     "character": "Luna Lovegood",
-    "initial_mood": "dreamy",
+    "initial_mood": "neutral",
     "location": "Tour de Serdaigle",
     "time": "Pleine lune",
-    "initial_message": "Luna regarde par la fenêtre avec ses lunettes spéciales. Elle murmure à propos de créatures que personne d''autre ne peut voir.",
+    "initial_message": "*regarde par la fenêtre avec des lunettes extravagantes* Oh, bonjour. Je cherche des Nargoles. Ils sont particulièrement actifs ce soir... Vous pouvez les voir aussi ?",
     "objective": "Comprendre Luna et participer à sa quête sans la ridiculiser",
     "difficulty": "easy",
     "win_conditions": [
       "Luna se sent comprise et acceptée",
-      "Une amitié se forme",
+      "Une amitié sincère se forme",
       "Sa confiance en elle augmente"
     ],
     "lose_conditions": [
@@ -114,10 +151,10 @@ VALUES (
       "La conversation devient malaisante"
     ],
     "suggested_actions": [
-      "Demander ce qu''elle cherche",
-      "Prétendre voir les Nargoles",
-      "Parler d''autres créatures",
-      "L''écouter attentivement"
+      "Que cherchez-vous exactement ?",
+      "Je crois que je vois quelque chose...",
+      "Parlez-moi des Nargoles",
+      "Vous êtes courageuse de les chercher"
     ],
     "context": "Luna Lovegood est une élève unique et incomprise de Serdaigle. Elle croit aux créatures magiques que personne d''autre ne peut voir. Le joueur doit l''accepter telle qu''elle est et participer à sa vision du monde avec respect et ouverture d''esprit, même si cela semble étrange."
   }'::jsonb,

@@ -1,0 +1,117 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond nuit étoilée (bleu foncé) -->
+  <defs>
+    <linearGradient id="bgRaven" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A0E1A;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#141B2D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A0E1A;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="starGlow">
+      <stop offset="0%" style="stop-color:#E6E6E6;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#E6E6E6;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Fond -->
+  <rect width="1200" height="800" fill="url(#bgRaven)"/>
+  
+  <!-- Étoiles -->
+  <circle cx="100" cy="80" r="1.5" fill="#E6E6E6" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="250" cy="120" r="1" fill="#E6E6E6" opacity="0.7"/>
+  <circle cx="400" cy="60" r="1.5" fill="#E6E6E6" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="550" cy="100" r="1" fill="#E6E6E6" opacity="0.6"/>
+  <circle cx="700" cy="90" r="1.5" fill="#E6E6E6" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="850" cy="130" r="1" fill="#E6E6E6" opacity="0.7"/>
+  <circle cx="1000" cy="70" r="1.5" fill="#E6E6E6" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1100" cy="110" r="1" fill="#E6E6E6" opacity="0.6"/>
+  
+  <!-- Pleine lune -->
+  <circle cx="950" cy="180" r="70" fill="#E6E6E6" opacity="0.95"/>
+  <circle cx="950" cy="180" r="120" fill="url(#starGlow)"/>
+  
+  <!-- Tour de Serdaigle (silhouette) -->
+  <g>
+    <!-- Base de la tour -->
+    <rect x="500" y="350" width="200" height="450" fill="#2A3A4A" stroke="#6B7A8A" stroke-width="2"/>
+    
+    <!-- Fenêtres de la tour -->
+    <rect x="540" y="400" width="40" height="60" fill="#4A6A8A" opacity="0.7" stroke="#8A9AAA" stroke-width="2">
+      <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="620" y="400" width="40" height="60" fill="#4A6A8A" opacity="0.6" stroke="#8A9AAA" stroke-width="2">
+      <animate attributeName="opacity" values="0.6;0.85;0.6" dur="3.5s" repeatCount="indefinite"/>
+    </rect>
+    
+    <rect x="540" y="500" width="40" height="60" fill="#3A5A7A" opacity="0.5" stroke="#8A9AAA" stroke-width="2"/>
+    <rect x="620" y="500" width="40" height="60" fill="#3A5A7A" opacity="0.5" stroke="#8A9AAA" stroke-width="2"/>
+    
+    <rect x="540" y="600" width="40" height="60" fill="#2A4A6A" opacity="0.4" stroke="#8A9AAA" stroke-width="2"/>
+    <rect x="620" y="600" width="40" height="60" fill="#2A4A6A" opacity="0.4" stroke="#8A9AAA" stroke-width="2"/>
+    
+    <!-- Toit conique -->
+    <polygon points="600,300 450,350 750,350" fill="#4A5A6A" stroke="#8A9AAA" stroke-width="2"/>
+    <polygon points="600,280 470,330 730,330" fill="#5A6A7A" stroke="#8A9AAA" stroke-width="2"/>
+    
+    <!-- Pointe -->
+    <polygon points="600,250 590,280 610,280" fill="#6A7A8A"/>
+    
+    <!-- Balcon principal (où Luna se trouve) -->
+    <rect x="520" y="320" width="160" height="40" fill="#3A4A5A" stroke="#8A9AAA" stroke-width="2"/>
+    <rect x="510" y="360" width="180" height="10" fill="#4A5A6A" stroke="#8A9AAA" stroke-width="2"/>
+  </g>
+  
+  <!-- Lunettes de Luna stylisées (sur le balcon) -->
+  <g transform="translate(600, 340)" opacity="0.8">
+    <circle cx="-15" cy="0" r="12" fill="none" stroke="#E6C847" stroke-width="2"/>
+    <circle cx="15" cy="0" r="12" fill="none" stroke="#E6C847" stroke-width="2"/>
+    <line x1="-3" y1="0" x2="3" y2="0" stroke="#E6C847" stroke-width="2"/>
+    <circle cx="-15" cy="0" r="8" fill="#4A6A8A" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="15" cy="0" r="8" fill="#4A6A8A" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Nuages -->
+  <ellipse cx="300" cy="180" rx="80" ry="30" fill="#1A2A3A" opacity="0.5"/>
+  <ellipse cx="200" cy="190" rx="60" ry="25" fill="#1A2A3A" opacity="0.4"/>
+  
+  <!-- Créatures invisibles (Nargoles - points lumineux mystérieux) -->
+  <circle cx="750" cy="250" r="3" fill="#E6C847" opacity="0.5">
+    <animate attributeName="cx" values="750;770;750" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="250;240;250" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="450" cy="280" r="2.5" fill="#E6C847" opacity="0.4">
+    <animate attributeName="cx" values="450;440;450" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="280;270;280" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0;0.4" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="850" cy="320" r="2" fill="#E6C847" opacity="0.6">
+    <animate attributeName="cx" values="850;860;850" dur="4.5s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="320;310;320" dur="4.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Étoiles supplémentaires pour l'ambiance -->
+  <circle cx="150" cy="300" r="1" fill="#E6E6E6" opacity="0.7"/>
+  <circle cx="320" cy="350" r="1.5" fill="#E6E6E6" opacity="0.6"/>
+  <circle cx="180" cy="420" r="1" fill="#E6E6E6" opacity="0.8"/>
+  <circle cx="1050" cy="280" r="1.5" fill="#E6E6E6" opacity="0.7"/>
+  <circle cx="1100" cy="380" r="1" fill="#E6E6E6" opacity="0.6"/>
+  <circle cx="980" cy="450" r="1.5" fill="#E6E6E6" opacity="0.8"/>
+  
+  <!-- Texte -->
+  <text x="600" y="750" text-anchor="middle" fill="#8A9AAA" font-size="28" font-family="serif" font-weight="bold" opacity="0.9">
+    Tour de Serdaigle
+  </text>
+</svg>

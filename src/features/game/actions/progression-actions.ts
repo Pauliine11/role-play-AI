@@ -2,7 +2,7 @@
 
 import { auth } from '@clerk/nextjs/server';
 import { supabase } from '@/shared/lib/supabase';
-import { StoryLevel, LevelStatus } from '@/features/game/types';
+import { StoryLevel, LevelStatus } from '@/shared/types/game';
 import { revalidatePath } from 'next/cache';
 
 interface UserLevelProgressRow {

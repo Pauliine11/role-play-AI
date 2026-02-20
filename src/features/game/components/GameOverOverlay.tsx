@@ -1,13 +1,13 @@
 'use client';
 
-import { StoryLevel } from '@/features/game/types';
+import { StoryLevel } from '@/shared/types/game';
 import { trackLevelNavigation } from '@/features/analytics/events';
 import { Button } from '@/shared/components/ui/button';
 
 interface GameOverOverlayProps {
   gameWon: boolean;
   gameOver: boolean;
-  isHagrid: boolean;
+  character: string;
   currentLevel: StoryLevel | undefined;
   levels: StoryLevel[];
   language: 'fr' | 'en';
@@ -17,13 +17,20 @@ interface GameOverOverlayProps {
 export function GameOverOverlay({
   gameWon,
   gameOver,
-  isHagrid,
+  character,
   currentLevel,
   levels,
   language,
   t
 }: GameOverOverlayProps) {
   if (!gameOver && !gameWon) return null;
+
+  // Déterminer quel personnage pour les traductions
+  const characterLower = character.toLowerCase();
+  const isHagrid = characterLower.includes('hagrid');
+  const isRon = characterLower.includes('ron');
+  const isLuna = characterLower.includes('luna');
+  const characterKey = isHagrid ? 'hagrid' : isRon ? 'ron' : isLuna ? 'luna' : 'hermione';
 
   // Trouver le niveau suivant
   const currentIndex = levels.findIndex(l => l.id === currentLevel?.id);
@@ -43,8 +50,8 @@ export function GameOverOverlay({
       </h2>
       <p className="text-xl text-[#E6D5A7] mb-8 max-w-lg" style={{ fontFamily: 'var(--font-merriweather)' }}>
         {gameWon 
-          ? (isHagrid ? t('rpg.hagrid.victoryMessage') : t('rpg.hermione.victoryMessage'))
-          : (isHagrid ? t('rpg.hagrid.gameOverMessage') : t('rpg.hermione.gameOverMessage'))}
+          ? t(`rpg.${characterKey}.victoryMessage`)
+          : t(`rpg.${characterKey}.gameOverMessage`)}
       </p>
       
       {/* Boutons d'action */}

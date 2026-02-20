@@ -168,3 +168,27 @@ export async function unlockAchievement(
     return { success: false };
   }
 }
+
+/**
+ * Détermine si un challenge doit être déclenché
+ * 30% de chances à chaque message
+ */
+export async function shouldTriggerChallenge(): Promise<boolean> {
+  return Math.random() < 0.3;
+}
+
+/**
+ * Génère un type de challenge aléatoire
+ */
+export async function generateRandomChallenge(): Promise<'dementor' | 'spider' | 'fire' | 'devil-snare' | 'serpent' | 'ice-trap'> {
+  const challenges: Array<'dementor' | 'spider' | 'fire' | 'devil-snare' | 'serpent' | 'ice-trap'> = [
+    'dementor',
+    'spider',
+    'fire',
+    'devil-snare',
+    'serpent',
+    'ice-trap',
+  ];
+  
+  return challenges[Math.floor(Math.random() * challenges.length)];
+}

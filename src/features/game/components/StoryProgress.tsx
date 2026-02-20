@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStoryProgression } from '@/features/game/hooks/useStoryProgression';
-import { StoryLevel } from '@/features/game/types';
+import { StoryLevel } from '@/shared/types/game';
 
 export const StoryProgress = () => {
   const { levels, currentLevel, progressPercentage } = useStoryProgression();

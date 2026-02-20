@@ -33,11 +33,10 @@ const eslintConfig = defineConfig([
           ignoreRestSiblings: true,
         },
       ],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       'react-hooks/exhaustive-deps': 'error',
       'react-hooks/set-state-in-effect': 'off',
-      'react-hooks/preserve-manual-memoization': 'off', // Keep existing useMemo/useCallback patterns, TODO remove once React Compiler is functioning and has been thoroughly tested in live environments
-      // Detect unused exports using eslint-plugin-import-x (ESLint 9 flat config compatible)
+      'react-hooks/preserve-manual-memoization': 'off',
       'import-x/no-unused-modules': [
         'error',
         {
@@ -46,7 +45,11 @@ const eslintConfig = defineConfig([
           src: ['.'],
         },
       ],
-      // Limit file length to encourage breaking up large components
+    },
+  },
+  {
+    files: ['src/features/**/*', 'src/components/**/*', 'src/shared/components/**/*'],
+    rules: {
       'max-lines': [
         'error',
         {
@@ -55,6 +58,12 @@ const eslintConfig = defineConfig([
           skipComments: true,
         },
       ],
+    },
+  },
+  {
+    files: ['**/SplashCursor.tsx', '**/*.config.*', '**/shaders/**/*'],
+    rules: {
+      'max-lines': 'off',
     },
   },
   // Override default ignores of eslint-config-next.

@@ -5,6 +5,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
+import { TextArea } from '@/shared/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import Link from 'next/link';
@@ -122,86 +124,66 @@ export default function CreateLevelPage() {
 
         <div className="bg-[#141B2D]/80 rounded-xl border-2 border-[#3A2F1E] backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)] p-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="space-y-2">
-                    <label className="block text-sm font-semibold text-[#B8A77E]" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
-                        {t('admin.form.titleLabel')}
-                    </label>
-                    <input
-                        data-testid="level-title-input"
-                        type="text"
-                        placeholder={t('admin.form.titlePlaceholder')}
-                        className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all shadow-inner"
-                        style={{ fontFamily: 'var(--font-merriweather)' }}
-                        {...register('title')}
-                    />
-                    {errors.title && <p className="text-sm text-[#B84040] font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>{errors.title.message}</p>}
-                </div>
+                <Input
+                  data-testid="level-title-input"
+                  type="text"
+                  label={t('admin.form.titleLabel')}
+                  placeholder={t('admin.form.titlePlaceholder')}
+                  error={errors.title?.message}
+                  {...register('title')}
+                />
 
                 <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    data-testid="level-order-input"
+                    type="number"
+                    label={t('admin.form.orderLabel')}
+                    placeholder={t('admin.form.orderPlaceholder')}
+                    error={errors.order_index?.message}
+                    {...register('order_index')}
+                  />
+
                   <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-[#B8A77E]" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
-                          {t('admin.form.orderLabel')}
-                      </label>
+                    <label className="block text-sm font-semibold text-[#B8A77E] mb-2" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
+                      {t('admin.form.statusLabel')}
+                    </label>
+                    <div className="flex items-center space-x-3 bg-[#101827] p-3 rounded-lg border-2 border-[#3A2F1E] h-[46px]">
                       <input
-                          data-testid="level-order-input"
-                          type="number"
-                          className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all shadow-inner"
-                          style={{ fontFamily: 'var(--font-merriweather)' }}
-                          placeholder={t('admin.form.orderPlaceholder')}
-                          {...register('order_index')}
+                        data-testid="level-is-active-checkbox"
+                        type="checkbox"
+                        id="is_active"
+                        className="w-5 h-5 accent-[#C9A227] bg-[#101827] border-[#3A2F1E] rounded focus:ring-[#C9A227] cursor-pointer"
+                        {...register('is_active')}
                       />
-                      {errors.order_index && <p className="text-sm text-[#B84040] font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>{errors.order_index.message}</p>}
-                  </div>
-
-                   <div className="space-y-2">
-                        <label className="block text-sm font-semibold text-[#B8A77E] mb-2" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
-                            {t('admin.form.statusLabel')}
-                        </label>
-                        <div className="flex items-center space-x-3 bg-[#101827] p-3 rounded-lg border-2 border-[#3A2F1E] h-[46px]">
-                            <input
-                                data-testid="level-is-active-checkbox"
-                                type="checkbox"
-                                id="is_active"
-                                className="w-5 h-5 accent-[#C9A227] bg-[#101827] border-[#3A2F1E] rounded focus:ring-[#C9A227] cursor-pointer"
-                                {...register('is_active')}
-                            />
-                            <label htmlFor="is_active" className="text-sm font-medium text-[#B8A77E] cursor-pointer whitespace-nowrap" style={{ fontFamily: 'var(--font-merriweather)' }}>
-                                {t('admin.form.activeCheckbox')}
-                            </label>
-                        </div>
+                      <label htmlFor="is_active" className="text-sm font-medium text-[#B8A77E] cursor-pointer whitespace-nowrap" style={{ fontFamily: 'var(--font-merriweather)' }}>
+                        {t('admin.form.activeCheckbox')}
+                      </label>
                     </div>
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="block text-sm font-semibold text-[#B8A77E]" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
-                        {t('admin.form.descriptionLabel')}
-                    </label>
-                    <textarea
-                        data-testid="level-description-input"
-                        className="block p-3 w-full text-[#E6D5A7] bg-[#101827] rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all resize-none shadow-inner"
-                        style={{ fontFamily: 'var(--font-merriweather)' }}
-                        rows={3}
-                        placeholder={t('admin.form.descriptionPlaceholder')}
-                        {...register('description')}
-                    />
-                    {errors.description && <p className="text-sm text-[#B84040] font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>{errors.description.message}</p>}
-                </div>
+                <TextArea
+                  data-testid="level-description-input"
+                  label={t('admin.form.descriptionLabel')}
+                  placeholder={t('admin.form.descriptionPlaceholder')}
+                  rows={3}
+                  error={errors.description?.message}
+                  {...register('description')}
+                />
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-semibold text-[#B8A77E]" style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.03em' }}>
-                        {t('admin.form.contentLabel')}
-                    </label>
-                    <textarea
-                        data-testid="level-content-textarea"
-                        className="block p-3 w-full font-mono text-xs text-[#C9A227] bg-[#0E1320]/90 rounded-lg border-2 border-[#3A2F1E] focus:ring-2 focus:ring-[#C9A227]/50 focus:border-[#C9A227] placeholder-[#6B5A45] transition-all resize-none shadow-inner"
-                        rows={8}
-                        placeholder={t('admin.form.contentPlaceholder')}
-                        {...register('content')}
-                    />
-                    <p className="text-xs text-[#8C7A5E]" style={{ fontFamily: 'var(--font-merriweather)' }}>
-                        {t('admin.form.contentHint')}
-                    </p>
-                    {errors.content && <p className="text-sm text-[#B84040] font-medium" style={{ fontFamily: 'var(--font-merriweather)' }}>{errors.content.message}</p>}
+                  <TextArea
+                    data-testid="level-content-textarea"
+                    label={t('admin.form.contentLabel')}
+                    placeholder={t('admin.form.contentPlaceholder')}
+                    rows={8}
+                    className="font-mono text-xs text-[#C9A227] bg-[#0E1320]/90"
+                    error={errors.content?.message}
+                    {...register('content')}
+                  />
+                  <p className="text-xs text-[#8C7A5E]" style={{ fontFamily: 'var(--font-merriweather)' }}>
+                    {t('admin.form.contentHint')}
+                  </p>
                 </div>
 
                 <Button 

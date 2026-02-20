@@ -9,11 +9,21 @@ import { Footer } from '@/shared/components/layout/Footer';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import { Badge } from '@/shared/components/ui/badge';
+import SplashCursor from '@/shared/components/SplashCursor';
+import { MusicPlayer } from '@/features/game/components/MusicPlayer';
+import { useBackgroundMusic } from '@/features/game/hooks/useBackgroundMusic';
 
 export default function HomePage() {
   const { levels, isLoading } = useStoryProgression();
   const { isOpen, isMobile } = useSidebar();
   const { t } = useLanguage();
+  
+  // Musique de fond pour la page d'accueil
+  const musicControls = useBackgroundMusic('/music/home-page.mp3', {
+    autoPlay: true,
+    defaultVolume: 0.15,
+    persistPreferences: true,
+  });
 
   if (isLoading) {
     return (
@@ -48,13 +58,14 @@ export default function HomePage() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="relative w-64 h-64 md:w-80 md:h-40 flex items-center justify-center">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
               <Image
                 src="/logoGrimoire.png"
                 alt="Logo"
                 width={320}
                 height={320}
                 className="object-contain drop-shadow-[0_6px_24px_rgba(201,162,39,0.4)]"
+                style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
                 priority
               />
             </div>
@@ -125,8 +136,17 @@ export default function HomePage() {
                     src={imagePath}
                     alt={character}
                     fill
-                    className={`${isRon || isLuna ? 'object-contain' : 'object-cover'} ${isLocked ? 'grayscale' : 'group-hover:scale-110 transition-transform duration-500'}`}
-                    style={{ objectPosition: isHagrid ? 'center 30%' : 'center center' }}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className={`object-cover ${isLocked ? 'grayscale' : 'group-hover:scale-110 transition-transform duration-500'}`}
+                    style={{ 
+                      objectPosition: isHagrid 
+                        ? 'center 30%' 
+                        : isRon 
+                        ? 'center 20%' 
+                        : isLuna 
+                        ? 'center 15%' 
+                        : 'center center' 
+                    }}
                   />
                   <div className={`absolute inset-0 ${
                     isLocked 
@@ -225,6 +245,30 @@ export default function HomePage() {
       </div>
       
       <Footer variant="default" />
+      
+      {/* Musique de fond page d'accueil */}
+      <MusicPlayer
+        isPlaying={musicControls.isPlaying}
+        volume={musicControls.volume}
+        isMuted={musicControls.isMuted}
+        onTogglePlay={musicControls.togglePlay}
+        onVolumeChange={musicControls.setVolume}
+        onToggleMute={musicControls.toggleMute}
+        characterName="Poudlard"
+      />
+      
+      {/* Effet fluide magique interactif */}
+      <SplashCursor
+        SIM_RESOLUTION={128}
+        DYE_RESOLUTION={1440}
+        DENSITY_DISSIPATION={3.5}
+        VELOCITY_DISSIPATION={2}
+        PRESSURE={0.1}
+        CURL={3}
+        SPLAT_RADIUS={0.2}
+        SPLAT_FORCE={6000}
+        COLOR_UPDATE_SPEED={10}
+      />
     </>
   );
 }

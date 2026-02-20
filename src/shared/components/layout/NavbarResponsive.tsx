@@ -2,6 +2,7 @@
 
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { LanguageToggle } from '@/shared/components/ui/LanguageToggle';
+import { LumosNoxToggle } from '@/shared/components/ui/LumosNoxToggle';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -72,6 +73,7 @@ export function NavbarResponsive({ variant = 'default' }: NavbarProps) {
 
         {/* Authentification Clerk à droite */}
         <div className="flex items-center gap-2 md:gap-3">
+          <LumosNoxToggle playSound={true} />
           <LanguageToggle />
           
           <SignedOut>

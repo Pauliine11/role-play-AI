@@ -29,6 +29,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
 import { SidebarProvider } from '@/shared/hooks/useSidebar';
 import { LanguageProvider } from '@/shared/providers/LanguageContext';
+import { AnimationPreferencesProvider } from '@/shared/providers/AnimationPreferencesContext';
+import { ThemeProvider } from '@/shared/providers/ThemeContext';
 import { PosthogProvider } from '@/features/analytics/provider';
 
 // ============================================================================
@@ -64,13 +66,19 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
       {/* Analytics en premier pour tout tracker */}
       <QueryClientProvider client={queryClient}>
         {/* Gestion des requêtes API et du cache */}
-        <LanguageProvider>
-          {/* Gestion de la langue FR/EN */}
-          <SidebarProvider>
-            {/* État de la sidebar */}
-            {children}
-          </SidebarProvider>
-        </LanguageProvider>
+        <ThemeProvider defaultTheme="nox">
+          {/* Thème Lumos/Nox avec transition magique */}
+          <LanguageProvider>
+            {/* Gestion de la langue FR/EN */}
+            <AnimationPreferencesProvider>
+              {/* Préférences d'animation et accessibilité */}
+              <SidebarProvider>
+                {/* État de la sidebar */}
+                {children}
+              </SidebarProvider>
+            </AnimationPreferencesProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </PosthogProvider>
   );

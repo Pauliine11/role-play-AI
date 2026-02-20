@@ -1,0 +1,119 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond bibliothèque sombre -->
+  <defs>
+    <linearGradient id="bgLib" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A1410;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0E0A08;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fond -->
+  <rect width="1200" height="800" fill="url(#bgLib)"/>
+  
+  <!-- Étagères de livres (arrière-plan) -->
+  <g opacity="0.6">
+    <!-- Étagère 1 -->
+    <rect x="50" y="100" width="300" height="40" fill="#3A2F1E"/>
+    <rect x="60" y="105" width="15" height="30" fill="#6B4F2F"/>
+    <rect x="80" y="105" width="20" height="30" fill="#8C6A3F"/>
+    <rect x="105" y="105" width="18" height="30" fill="#6B4F2F"/>
+    <rect x="128" y="105" width="22" height="30" fill="#5A4A2E"/>
+    <rect x="155" y="105" width="16" height="30" fill="#6B4F2F"/>
+    <rect x="176" y="105" width="25" height="30" fill="#8C6A3F"/>
+    <rect x="206" y="105" width="19" height="30" fill="#6B4F2F"/>
+    <rect x="230" y="105" width="17" height="30" fill="#5A4A2E"/>
+    <rect x="252" y="105" width="23" height="30" fill="#6B4F2F"/>
+    <rect x="280" y="105" width="20" height="30" fill="#8C6A3F"/>
+    <rect x="305" y="105" width="18" height="30" fill="#6B4F2F"/>
+    
+    <!-- Étagère 2 -->
+    <rect x="50" y="200" width="300" height="40" fill="#3A2F1E"/>
+    <rect x="60" y="205" width="20" height="30" fill="#6B4F2F"/>
+    <rect x="85" y="205" width="18" height="30" fill="#8C6A3F"/>
+    <rect x="108" y="205" width="22" height="30" fill="#6B4F2F"/>
+    <rect x="135" y="205" width="16" height="30" fill="#5A4A2E"/>
+    <rect x="156" y="205" width="24" height="30" fill="#6B4F2F"/>
+    <rect x="185" y="205" width="19" height="30" fill="#8C6A3F"/>
+    <rect x="209" y="205" width="21" height="30" fill="#6B4F2F"/>
+    <rect x="235" y="205" width="17" height="30" fill="#5A4A2E"/>
+    <rect x="257" y="205" width="23" height="30" fill="#6B4F2F"/>
+    <rect x="285" y="205" width="20" height="30" fill="#8C6A3F"/>
+    
+    <!-- Étagère droite -->
+    <rect x="850" y="150" width="300" height="40" fill="#3A2F1E"/>
+    <rect x="860" y="155" width="18" height="30" fill="#6B4F2F"/>
+    <rect x="883" y="155" width="22" height="30" fill="#8C6A3F"/>
+    <rect x="910" y="155" width="19" height="30" fill="#6B4F2F"/>
+    <rect x="934" y="155" width="16" height="30" fill="#5A4A2E"/>
+    <rect x="955" y="155" width="24" height="30" fill="#6B4F2F"/>
+    <rect x="984" y="155" width="20" height="30" fill="#8C6A3F"/>
+    <rect x="1009" y="155" width="17" height="30" fill="#6B4F2F"/>
+    <rect x="1031" y="155" width="23" height="30" fill="#5A4A2E"/>
+    <rect x="1059" y="155" width="21" height="30" fill="#6B4F2F"/>
+    <rect x="1085" y="155" width="19" height="30" fill="#8C6A3F"/>
+    <rect x="1109" y="155" width="22" height="30" fill="#6B4F2F"/>
+  </g>
+  
+  <!-- Table centrale avec livres empilés -->
+  <g transform="translate(600, 500)">
+    <!-- Table -->
+    <ellipse cx="0" cy="100" rx="180" ry="30" fill="#3A2F1E"/>
+    <rect x="-180" y="70" width="360" height="30" fill="#4A3A2A"/>
+    
+    <!-- Pile de livres fermés -->
+    <rect x="-80" y="30" width="70" height="45" fill="#6B4F2F" stroke="#C9A227" stroke-width="1.5"/>
+    <line x1="-80" y1="52" x2="-10" y2="52" stroke="#C9A227" stroke-width="1"/>
+    <rect x="-70" y="5" width="65" height="40" fill="#8C6A3F" stroke="#C9A227" stroke-width="1.5"/>
+    <line x1="-70" y1="25" x2="-5" y2="25" stroke="#C9A227" stroke-width="1"/>
+    
+    <!-- Livre ouvert -->
+    <g transform="translate(40, 20)">
+      <path d="M -50 0 L -50 50 L 0 55 L 0 5 Z" fill="#5A4A2E" stroke="#C9A227" stroke-width="2"/>
+      <path d="M 50 0 L 50 50 L 0 55 L 0 5 Z" fill="#5A4A2E" stroke="#C9A227" stroke-width="2"/>
+      <!-- Lignes de texte -->
+      <line x1="-35" y1="20" x2="-10" y2="20" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+      <line x1="-35" y1="28" x2="-8" y2="28" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+      <line x1="-35" y1="36" x2="-12" y2="36" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+      <line x1="10" y1="20" x2="35" y2="20" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+      <line x1="8" y1="28" x2="35" y2="28" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+      <line x1="12" y1="36" x2="35" y2="36" stroke="#C9A227" stroke-width="1" opacity="0.5"/>
+    </g>
+    
+    <!-- Chandelle avec flamme -->
+    <g transform="translate(-130, -20)">
+      <rect x="-8" y="50" width="16" height="60" rx="2" fill="#E6D5A7"/>
+      <ellipse cx="0" cy="50" rx="10" ry="6" fill="#E6D5A7"/>
+      <!-- Flamme -->
+      <ellipse cx="0" cy="35" rx="8" ry="15" fill="#FFA500">
+        <animate attributeName="ry" values="15;18;15" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.8;1" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="0" cy="30" rx="5" ry="10" fill="#FFD700">
+        <animate attributeName="ry" values="10;13;10" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Lueur -->
+      <circle cx="0" cy="35" r="30" fill="#FFA500" opacity="0.2">
+        <animate attributeName="opacity" values="0.2;0.35;0.2" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Particules magiques flottantes -->
+  <circle cx="200" cy="400" r="2" fill="#E6C847" opacity="0.6">
+    <animate attributeName="cy" values="400;350;400" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1000" cy="450" r="2" fill="#E6C847" opacity="0.5">
+    <animate attributeName="cy" values="450;400;450" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;0;0.5" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="300" r="1.5" fill="#E6C847" opacity="0.7">
+    <animate attributeName="cy" values="300;250;300" dur="3.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0;0.7" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Texte en bas -->
+  <text x="600" y="750" text-anchor="middle" fill="#C9A227" font-size="28" font-family="serif" font-weight="bold" opacity="0.8">
+    Bibliothèque de Poudlard
+  </text>
+</svg>

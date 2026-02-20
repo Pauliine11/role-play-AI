@@ -12,8 +12,18 @@ import { CharacterAvatar } from '@/features/game/components/CharacterAvatar';
 import { ChatMessages } from '@/features/game/components/ChatMessages';
 import { ChatInput } from '@/features/game/components/ChatInput';
 import { GameOverOverlay } from '@/features/game/components/GameOverOverlay';
+import { MagicParticles } from '@/features/game/components/MagicParticles';
+import { SceneTransition } from '@/features/game/components/SceneTransition';
+import { MusicPlayer } from '@/features/game/components/MusicPlayer';
+import { SpellChallenge } from '@/features/game/components/SpellChallenge';
+import { ChallengeSuccess } from '@/features/game/components/ChallengeSuccess';
+import { ChallengeGameOver } from '@/features/game/components/ChallengeGameOver';
 import { useStoryProgression } from '@/features/game/hooks/useStoryProgression';
-import { StoryLevel } from '@/features/game/types';
+import { useSceneTransition } from '@/features/game/hooks/useSceneTransition';
+import { useBackgroundMusic, getMusicForCharacter } from '@/features/game/hooks/useBackgroundMusic';
+import { StoryLevel } from '@/shared/types/game';
+import { CHALLENGE_CONFIG } from '@/shared/types/challenge';
+import type { ChallengeResult, ChallengeType } from '@/shared/types/challenge';
 import { useLanguage } from '@/shared/providers/LanguageContext';
 import { 
   trackGameStart, 
@@ -29,6 +39,12 @@ function ImmersiveRPGContent() {
   const { t, language, setLanguage } = useLanguage();
   
   const currentLevel: StoryLevel | undefined = levels.find(l => l.id === levelId) || levels[0];
+  
+  // 🔍 DEBUG - Afficher le niveau chargé
+  console.log('📖 [game/page] Level ID demandé:', levelId);
+  console.log('📖 [game/page] Current Level:', currentLevel?.id, currentLevel?.title);
+  console.log('📖 [game/page] Level Content:', JSON.stringify(currentLevel?.content, null, 2));
+  
   const character = currentLevel?.content?.character || 'Hermione Granger';
   const isHermione = character.toLowerCase().includes('hermione');
   const isHagrid = character.toLowerCase().includes('hagrid');
@@ -38,18 +54,29 @@ function ImmersiveRPGContent() {
   const characterFolder = isRon ? 'ron' : isLuna ? 'luna' : isHermione ? 'hermione' : 'hagrid';
   const imageExt = (isRon || isLuna) ? 'png' : 'jpg';
   
-  const initialMessage = currentLevel?.content?.initial_message || 
-    (isHagrid ? t('rpg.hagrid.initialMessage') : t('rpg.hermione.initialMessage'));
+  // Déterminer la clé du personnage pour les traductions
+  const characterKey = isHagrid ? 'hagrid' : isRon ? 'ron' : isLuna ? 'luna' : 'hermione';
   
-  const initialMood = (currentLevel?.content?.initial_mood || (isHagrid ? 'nervous' : 'sad')) as 'sad' | 'angry' | 'neutral' | 'happy' | 'desperate' | 'nervous';
+  const initialMessage = currentLevel?.content?.initial_message || t(`rpg.${characterKey}.initialMessage`);
   
-  const defaultSuggestions = isHagrid 
-    ? (language === 'fr' 
-      ? ["Que cachez-vous ?", "Je peux vous aider ?", "Vous semblez nerveux...", "Belle journée n'est-ce pas ?"]
-      : ["What are you hiding?", "Can I help you?", "You seem nervous...", "Nice day, isn't it?"])
-    : (language === 'fr'
-      ? ["Qu'est ce qui ne va pas ?", "Lui rappeler Harry et Ron", "Lui offrir une écoute attentive", "Bloquer le passage"]
-      : ["What's wrong?", "Remind her of Harry and Ron", "Offer her attentive listening", "Block the passage"]);
+  const initialMood = (currentLevel?.content?.initial_mood || (isHagrid ? 'nervous' : isRon ? 'sad' : isLuna ? 'neutral' : 'sad')) as 'sad' | 'angry' | 'neutral' | 'happy' | 'desperate' | 'nervous';
+  
+  const defaultSuggestions = currentLevel?.content?.suggested_actions || 
+    (isHagrid 
+      ? (language === 'fr' 
+        ? ["Que cachez-vous ?", "Je peux vous aider ?", "Vous semblez nerveux...", "Belle journée n'est-ce pas ?"]
+        : ["What are you hiding?", "Can I help you?", "You seem nervous...", "Nice day, isn't it?"])
+      : isRon
+      ? (language === 'fr'
+        ? ["Qu'est-ce qui s'est passé ?", "Tu es meilleur que tu ne le crois", "Parler de ses frères", "Lui rappeler ses réussites"]
+        : ["What happened?", "You're better than you think", "Talk about his brothers", "Remind him of his successes"])
+      : isLuna
+      ? (language === 'fr'
+        ? ["Que cherchez-vous exactement ?", "Je crois que je vois quelque chose...", "Parlez-moi des Nargoles", "Vous êtes courageuse de les chercher"]
+        : ["What exactly are you looking for?", "I think I see something...", "Tell me about the Nargles", "You're brave to search for them"])
+      : (language === 'fr'
+        ? ["Qu'est ce qui ne va pas ?", "Lui rappeler Harry et Ron", "Lui offrir une écoute attentive", "Bloquer le passage"]
+        : ["What's wrong?", "Remind her of Harry and Ron", "Offer her attentive listening", "Block the passage"]));
   
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [turnNumber, setTurnNumber] = useState(0);
@@ -67,8 +94,35 @@ function ImmersiveRPGContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { snackbar, showSnackbar } = useSnackbar();
   
+  // États pour le système de challenge
+  const [showChallenge, setShowChallenge] = useState(false);
+  const [currentChallenge, setCurrentChallenge] = useState<ChallengeType | null>(null);
+  const [showChallengeSuccess, setShowChallengeSuccess] = useState(false);
+  const [challengeResult, setChallengeResult] = useState<ChallengeResult | null>(null);
+  const [showChallengeGameOver, setShowChallengeGameOver] = useState(false);
+  const [challengesCompleted, setChallengesCompleted] = useState(0);
+  const [pendingGameState, setPendingGameState] = useState<GameState | null>(null);
+  
+  const { 
+    showTransition, 
+    sceneName, 
+    levelId: transitionLevelId, 
+    customPrompt, 
+    triggerTransition, 
+    hideTransition 
+  } = useSceneTransition();
+  
   const gameStartTime = useRef<number | null>(null);
   const hasTrackedStart = useRef(false);
+  const hasShownTransition = useRef(false);
+  
+  // Musique de fond par personnage
+  const musicSrc = getMusicForCharacter(character);
+  const musicControls = useBackgroundMusic(musicSrc, {
+    autoPlay: true,
+    defaultVolume: 0.2,
+    persistPreferences: true,
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -82,6 +136,7 @@ function ImmersiveRPGContent() {
     setMessages([{ role: 'assistant', content: initialMessage }]);
     setTurnNumber(0);
     hasTrackedStart.current = false;
+    hasShownTransition.current = false;
     gameStartTime.current = null;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelId]);
@@ -91,8 +146,16 @@ function ImmersiveRPGContent() {
       trackGameStart(currentLevel.id, currentLevel.title, character);
       gameStartTime.current = Date.now();
       hasTrackedStart.current = true;
+      
+      if (!hasShownTransition.current && currentLevel.content?.location) {
+        triggerTransition(
+          currentLevel.content.location,
+          currentLevel.id,
+        );
+        hasShownTransition.current = true;
+      }
     }
-  }, [currentLevel, character]);
+  }, [currentLevel, character, triggerTransition]);
 
   useEffect(() => {
     const imagesToPreload = [
@@ -109,6 +172,91 @@ function ImmersiveRPGContent() {
     });
   }, [characterFolder, imageExt]);
 
+  // Gestion du succès du challenge
+  const handleChallengeSuccess = (result: ChallengeResult) => {
+    setShowChallenge(false);
+    setChallengeResult(result);
+    setShowChallengeSuccess(true);
+    setChallengesCompleted(prev => prev + 1);
+  };
+
+  // Gestion de l'échec du challenge
+  const handleChallengeFail = () => {
+    setShowChallenge(false);
+    setShowChallengeGameOver(true);
+  };
+
+  // Continuer après le succès du challenge
+  const handleContinueAfterSuccess = () => {
+    setShowChallengeSuccess(false);
+    
+    if (pendingGameState) {
+      setGameState(pendingGameState);
+      
+      if (pendingGameState.character_reply) {
+        setMessages(prev => [...prev, { role: 'assistant', content: pendingGameState.character_reply }]);
+      }
+
+      const lowerMsg = messages[messages.length - 1]?.content?.toLowerCase() || '';
+      if (lowerMsg.includes('youpi') || lowerMsg.includes('yay')) {
+        trackSecretWordUsed('youpi', 'instant_victory');
+      } else if (lowerMsg.includes('moldu') || lowerMsg.includes('muggle')) {
+        trackSecretWordUsed('moldu', 'instant_defeat');
+      }
+
+      if (pendingGameState.game_won) {
+        if (currentLevel && gameStartTime.current) {
+          const duration = Math.round((Date.now() - gameStartTime.current) / 1000);
+          trackGameEnd(currentLevel.id, currentLevel.title, character, 'victory', turnNumber, pendingGameState.departure_risk, duration);
+        }
+        
+        if (currentLevel?.id) {
+          completeLevel(currentLevel.id);
+        }
+        const victoryMsg = t(`rpg.${characterKey}.victorySnackbar`);
+        showSnackbar(`${t('rpg.victory')} - ${character} ${victoryMsg} !`, "success");
+      } else if (pendingGameState.game_over) {
+        if (currentLevel && gameStartTime.current) {
+          const duration = Math.round((Date.now() - gameStartTime.current) / 1000);
+          const defeatReason = lowerMsg.includes('moldu') || lowerMsg.includes('muggle') 
+            ? 'muggle_insult' 
+            : turnNumber >= 10 
+            ? 'max_turns' 
+            : 'normal';
+          
+          trackGameEnd(currentLevel.id, currentLevel.title, character, 'defeat', turnNumber, pendingGameState.departure_risk, duration, defeatReason);
+        }
+        
+        const gameOverMsg = t(`rpg.${characterKey}.gameOverSnackbar`);
+        showSnackbar(`${t('rpg.gameOver')} - ${character} ${gameOverMsg}.`, "error");
+      }
+      
+      setPendingGameState(null);
+    }
+    
+    setChallengeResult(null);
+    setCurrentChallenge(null);
+  };
+
+  // Redémarrer le niveau après un game over du challenge
+  const handleRestartAfterChallengeFail = () => {
+    setShowChallengeGameOver(false);
+    setMessages([{ role: 'assistant', content: initialMessage }]);
+    setTurnNumber(0);
+    setGameState({
+      character_reply: '',
+      mood: initialMood,
+      departure_risk: 50,
+      game_over: false,
+      game_won: false,
+      suggested_actions: currentLevel?.content?.suggested_actions || defaultSuggestions
+    });
+    setPendingGameState(null);
+    setCurrentChallenge(null);
+    setChallengesCompleted(0);
+    gameStartTime.current = Date.now();
+  };
+
   const handleSendMessage = async (e?: FormEvent, forcedText?: string) => {
     e?.preventDefault();
     const userMessage = forcedText || inputText;
@@ -124,12 +272,26 @@ function ImmersiveRPGContent() {
 
     startTransition(async () => {
       try {
-        const data = await playTurn(newMessages.map(m => ({ role: m.role, content: m.content })), language, currentTurn);
+        const data = await playTurn(
+          newMessages.map(m => ({ role: m.role, content: m.content })), 
+          language, 
+          currentTurn,
+          currentLevel?.content
+        );
 
         if (currentLevel) {
           trackMessageSent(currentLevel.id, currentTurn, userMessage.length, data.departure_risk);
         }
 
+        // Si un challenge est déclenché, on le stocke et on affiche le challenge
+        if (data.hasChallenge && data.challengeType) {
+          setPendingGameState(data);
+          setCurrentChallenge(data.challengeType);
+          setShowChallenge(true);
+          return; // On arrête ici, la suite sera gérée après le challenge
+        }
+
+        // Pas de challenge, on continue normalement
         setGameState(data);
 
         if (data.character_reply) {
@@ -152,7 +314,7 @@ function ImmersiveRPGContent() {
           if (currentLevel?.id) {
             completeLevel(currentLevel.id);
           }
-          const victoryMsg = isHagrid ? t('rpg.hagrid.victorySnackbar') : t('rpg.hermione.victorySnackbar');
+          const victoryMsg = t(`rpg.${characterKey}.victorySnackbar`);
           showSnackbar(`${t('rpg.victory')} - ${character} ${victoryMsg} !`, "success");
         } else if (data.game_over) {
           if (currentLevel && gameStartTime.current) {
@@ -166,7 +328,7 @@ function ImmersiveRPGContent() {
             trackGameEnd(currentLevel.id, currentLevel.title, character, 'defeat', currentTurn, data.departure_risk, duration, defeatReason);
           }
           
-          const gameOverMsg = isHagrid ? t('rpg.hagrid.gameOverSnackbar') : t('rpg.hermione.gameOverSnackbar');
+          const gameOverMsg = t(`rpg.${characterKey}.gameOverSnackbar`);
           showSnackbar(`${t('rpg.gameOver')} - ${character} ${gameOverMsg}.`, "error");
         }
 
@@ -205,6 +367,7 @@ function ImmersiveRPGContent() {
         setLanguage={setLanguage}
         setShowGrimoire={setShowGrimoire}
         t={t}
+        challengesCompleted={challengesCompleted}
       />
 
       <main className="relative z-10 flex-1 flex flex-col md:flex-row gap-6 p-6 max-w-7xl mx-auto w-full overflow-hidden">
@@ -216,6 +379,7 @@ function ImmersiveRPGContent() {
           turnNumber={turnNumber}
           language={language}
           t={t}
+          characterFolder={characterFolder}
         />
 
         <div className="md:w-2/3 flex flex-col bg-[#141B2D]/80 rounded-xl border-2 border-[#3A2F1E] backdrop-blur-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden relative">
@@ -228,7 +392,7 @@ function ImmersiveRPGContent() {
           <GameOverOverlay
             gameWon={gameState.game_won}
             gameOver={gameState.game_over}
-            isHagrid={isHagrid}
+            character={character}
             currentLevel={currentLevel}
             levels={levels}
             language={language}
@@ -265,6 +429,50 @@ function ImmersiveRPGContent() {
         </div>
       )}
 
+      <MagicParticles count={12} />
+      
+      <SceneTransition
+        show={showTransition}
+        levelId={transitionLevelId}
+        sceneName={sceneName}
+        scenePrompt={customPrompt}
+        onComplete={hideTransition}
+      />
+      
+      <MusicPlayer
+        isPlaying={musicControls.isPlaying}
+        volume={musicControls.volume}
+        isMuted={musicControls.isMuted}
+        onTogglePlay={musicControls.togglePlay}
+        onVolumeChange={musicControls.setVolume}
+        onToggleMute={musicControls.toggleMute}
+        characterName={character}
+      />
+      
+      {/* Système de challenges magiques */}
+      {showChallenge && currentChallenge && (
+        <SpellChallenge
+          challenge={CHALLENGE_CONFIG[currentChallenge]}
+          onComplete={handleChallengeSuccess}
+          onFail={handleChallengeFail}
+        />
+      )}
+      
+      {showChallengeSuccess && challengeResult && currentChallenge && (
+        <ChallengeSuccess
+          result={challengeResult}
+          challengeType={currentChallenge}
+          onContinue={handleContinueAfterSuccess}
+        />
+      )}
+      
+      {showChallengeGameOver && currentChallenge && (
+        <ChallengeGameOver
+          challengeType={currentChallenge}
+          onRestart={handleRestartAfterChallengeFail}
+        />
+      )}
+      
       <Snackbar {...snackbar} />
     </div>
   );

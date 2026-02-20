@@ -23,7 +23,6 @@
  */
 
 import './globals.css';
-import './themes/minimal.css';
 import { AppProviders } from './providers';
 import { Metadata } from 'next';
 import { Geist, Geist_Mono, Cormorant_Garamond, Cinzel, Merriweather } from 'next/font/google';

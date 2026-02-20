@@ -2,15 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { fetchUserProgression } from '@/features/game/actions/progression-actions';
 import { useStoryProgression } from '@/features/game/hooks/useStoryProgression';
-import { StoryLevel } from '@/features/game/types';
+import { StoryLevel } from '@/shared/types/game';
 
 export default function TestDBPage() {
+  const router = useRouter();
   const [dbLevels, setDbLevels] = useState<StoryLevel[]>([]);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const { levels: hookLevels, isLoading: hookLoading } = useStoryProgression();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      router.push('/');
+    }
+  }, [router]);
 
   useEffect(() => {
     async function test() {

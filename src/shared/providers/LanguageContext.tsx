@@ -158,6 +158,24 @@ const translations = {
     'rpg.hagrid.victorySnackbar': 'vous a révélé son secret',
     'rpg.hagrid.gameOverSnackbar': 's\'est fermé',
     
+    // RPG - Ron specific
+    'rpg.ron.location': 'Salle Commune Gryffondor',
+    'rpg.ron.context': 'La salle commune. Ron semble frustré et découragé...',
+    'rpg.ron.initialMessage': 'Encore raté... *froisse un parchemin d\'un coup de poing* Pourquoi je me donne même la peine d\'essayer ? De toute façon, je serai toujours le moins bon...',
+    'rpg.ron.victoryMessage': 'Ron vous sourit, les yeux brillants. Il a enfin compris qu\'il n\'a pas besoin d\'être comme ses frères pour avoir de la valeur.',
+    'rpg.ron.gameOverMessage': 'Ron s\'est enfermé dans sa chambre. Il refuse de parler à quiconque et sombre dans l\'autodépréciation.',
+    'rpg.ron.victorySnackbar': 'a retrouvé confiance',
+    'rpg.ron.gameOverSnackbar': 's\'est refermé',
+    
+    // RPG - Luna specific
+    'rpg.luna.location': 'Tour de Serdaigle',
+    'rpg.luna.context': 'La tour d\'astronomie. Luna cherche des créatures invisibles...',
+    'rpg.luna.initialMessage': '*regarde par la fenêtre avec des lunettes extravagantes* Oh, bonjour. Je cherche des Nargoles. Ils sont particulièrement actifs ce soir... Vous pouvez les voir aussi ?',
+    'rpg.luna.victoryMessage': 'Luna vous sourit avec une sérénité lumineuse. Elle se sent enfin comprise et acceptée pour ce qu\'elle est.',
+    'rpg.luna.gameOverMessage': 'Luna s\'éloigne en silence, plus seule que jamais. Vous avez perdu une chance de comprendre quelqu\'un de vraiment unique.',
+    'rpg.luna.victorySnackbar': 'se sent comprise',
+    'rpg.luna.gameOverSnackbar': 's\'est éloignée',
+    
     // RPG - Moods
     'rpg.mood.sad': '"C\'est sans espoir..."',
     'rpg.mood.angry': '"Laissez-moi tranquille !"',
@@ -265,6 +283,24 @@ const translations = {
     'rpg.hagrid.gameOverMessage': 'Hagrid closed up completely. You\'ll never know what he was hiding.',
     'rpg.hagrid.victorySnackbar': 'revealed his secret to you',
     'rpg.hagrid.gameOverSnackbar': 'closed up',
+    
+    // RPG - Ron specific
+    'rpg.ron.location': 'Gryffindor Common Room',
+    'rpg.ron.context': 'The common room. Ron seems frustrated and discouraged...',
+    'rpg.ron.initialMessage': 'Failed again... *crumples a parchment in a punch* Why do I even bother trying? I\'ll always be the worst anyway...',
+    'rpg.ron.victoryMessage': 'Ron smiles at you, eyes shining. He finally understands he doesn\'t need to be like his brothers to have value.',
+    'rpg.ron.gameOverMessage': 'Ron locked himself in his room. He refuses to talk to anyone and sinks into self-deprecation.',
+    'rpg.ron.victorySnackbar': 'regained confidence',
+    'rpg.ron.gameOverSnackbar': 'closed up',
+    
+    // RPG - Luna specific
+    'rpg.luna.location': 'Ravenclaw Tower',
+    'rpg.luna.context': 'The astronomy tower. Luna is searching for invisible creatures...',
+    'rpg.luna.initialMessage': '*looks out the window with extravagant glasses* Oh, hello. I\'m looking for Nargles. They\'re particularly active tonight... Can you see them too?',
+    'rpg.luna.victoryMessage': 'Luna smiles at you with luminous serenity. She finally feels understood and accepted for who she is.',
+    'rpg.luna.gameOverMessage': 'Luna walks away in silence, more alone than ever. You\'ve lost a chance to understand someone truly unique.',
+    'rpg.luna.victorySnackbar': 'feels understood',
+    'rpg.luna.gameOverSnackbar': 'walked away',
     
     // RPG - Moods
     'rpg.mood.sad': '"It\'s hopeless..."',
